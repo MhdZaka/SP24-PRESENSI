@@ -9,7 +9,6 @@ body {
     background: #EBF4F6;
 }
 
-/* ========== LOGIN PAGE STYLES ========== */
 .login-page {
     background: linear-gradient(135deg, #09637E 0%, #088395 100%);
     min-height: 100vh;
@@ -157,7 +156,6 @@ select.login-input {
     box-shadow: 0 10px 20px -5px rgba(8,131,149,0.3);
 }
 
-/* Alert Error */
 .alert-error {
     background: #fef2f2;
     border-left: 4px solid #ef4444;
@@ -171,7 +169,6 @@ select.login-input {
     gap: 8px;
 }
 
-/* Footer */
 .login-footer {
     margin-top: 1.5rem;
     text-align: center;
@@ -200,7 +197,6 @@ select.login-input {
     color: rgba(255,255,255,0.6);
 }
 
-/* Animation */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -216,7 +212,6 @@ select.login-input {
     animation: fadeIn 0.4s ease-out;
 }
 
-/* Responsive */
 @media (max-width: 480px) {
     .login-header {
         padding: 1.2rem;
@@ -229,7 +224,6 @@ select.login-input {
     }
 }
 
-/* ========== DASHBOARD LAYOUT ========== */
 .dashboard-wrapper {
     display: flex;
     min-height: 100vh;
@@ -331,7 +325,6 @@ select.login-input {
     font-weight: 500;
 }
 
-/* ========== STATS CARDS ========== */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -379,7 +372,6 @@ select.login-input {
     font-size: 0.8rem;
 }
 
-/* ========== CARDS & TABLES ========== */
 .card {
     background: white;
     border-radius: 24px;
@@ -452,7 +444,6 @@ select.login-input {
     background: #F8FAFC;
 }
 
-/* ========== ACTION BUTTONS ========== */
 .action-buttons {
     display: flex;
     gap: 8px;
@@ -521,7 +512,6 @@ select.login-input {
     color: white;
 }
 
-/* ========== AVATAR ========== */
 .avatar-sm {
     width: 40px;
     height: 40px;
@@ -538,7 +528,6 @@ select.login-input {
     object-fit: cover;
 }
 
-/* ========== GURU GRID ========== */
 .guru-grid-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -629,7 +618,6 @@ select.login-input {
     flex: 1;
 }
 
-/* ========== MODAL ========== */
 .modal {
     display: none;
     position: fixed;
@@ -744,7 +732,6 @@ select.login-input {
     font-weight: 500;
 }
 
-/* ========== CEK ANAK PAGE ========== */
 .cek-anak-page {
     background: linear-gradient(135deg, #09637E 0%, #088395 50%, #7AB2B2 100%);
     min-height: 100vh;
@@ -905,7 +892,6 @@ select.login-input {
     display: inline-block;
 }
 
-/* ========== RESPONSIVE ========== */
 @media (max-width: 768px) {
     .sidebar {
         display: none;
