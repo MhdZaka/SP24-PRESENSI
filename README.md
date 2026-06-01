@@ -11,7 +11,7 @@ Open source attendance and academic management system project.
 
 ## Technology
 - PHP / Laravel
-- MySQL
+- Rest API
 - JavaScript
 
 ## Status
