@@ -7,11 +7,20 @@ $isHttps = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ||
 $protocol = $isHttps ? 'https://' : 'http://';
 $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
 
+$isTunnel = strpos($host, 'devtunnels.ms') !== false || 
+            strpos($host, 'vscode.dev') !== false ||
+            strpos($host, '127.0.0.1') !== false && $_SERVER['SERVER_PORT'] != 80;
+
 define('APP_URL', $protocol . $host . '/sp24-presensi');
-define('APP_MODE', 'production');
+
+if ($isTunnel || strpos($host, 'localhost') !== false) {
+    define('APP_MODE', 'local');
+} else {
+    define('APP_MODE', 'production');
+}
 
 if (APP_MODE == 'local') {
-    define('API_BASE_URL', 'http://localhost:3000/api');
+    define('API_BASE_URL', 'https://sp24api.wind.my.id/api');
 } else {
     define('API_BASE_URL', 'https://sp24api.wind.my.id/api');
 }

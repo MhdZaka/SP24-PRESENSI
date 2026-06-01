@@ -1,4 +1,3 @@
-// ========== MODAL FUNCTIONS ==========
 function closeModal(modalId) {
     document.getElementById(modalId).style.display = 'none';
 }
@@ -7,7 +6,6 @@ function showModal(modalId) {
     document.getElementById(modalId).style.display = 'block';
 }
 
-// ========== SISWA CRUD ==========
 function showTambahSiswa() {
     document.getElementById('siswaAction').value = 'create';
     document.getElementById('formSiswa').reset();
@@ -40,7 +38,6 @@ function hapusSiswa(id) {
     }
 }
 
-// ========== GURU CRUD ==========
 function showTambahGuru() {
     document.getElementById('guruAction').value = 'create';
     document.getElementById('formGuru').reset();
@@ -71,7 +68,6 @@ function hapusGuru(id) {
     }
 }
 
-// ========== UPLOAD FOTO ==========
 function uploadFotoSiswa(id) {
     let input = document.createElement('input');
     input.type = 'file';
@@ -126,14 +122,12 @@ function uploadFotoGuru(id) {
     input.click();
 }
 
-// ========== CLICK OUTSIDE MODAL ==========
 window.onclick = function(event) {
     if (event.target.classList.contains('modal')) {
         event.target.style.display = 'none';
     }
 }
 
-// ========== SHOW NOTIFICATION ==========
 window.onload = function() {
     const urlParams = new URLSearchParams(window.location.search);
     const msg = urlParams.get('msg');

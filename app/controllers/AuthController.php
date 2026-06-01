@@ -21,6 +21,9 @@ class AuthController {
                 $result = TeacherModel::loginGuru($username, $password);
             }
             
+            // Debug: Log response
+            error_log('Login attempt - Role: ' . $role . ', Response: ' . json_encode($result));
+            
             if ($result['status'] == 200 && isset($result['data']['data']['accessToken'])) {
                 $data = $result['data']['data'];
                 $_SESSION['access_token'] = $data['accessToken'];
@@ -43,7 +46,20 @@ class AuthController {
                 header('Location: ' . APP_URL . '/app/index.php?route=' . ($role == 'admin' ? 'admin/dashboard' : 'guru/dashboard'));
                 exit();
             } else {
-                $error = 'Login gagal! Periksa username/password atau role.';
+                // Provide more detailed error message
+                $errorMsg = 'Login gagal! ';
+                if (isset($result['data']['message'])) {
+                    $errorMsg .= $result['data']['message'];
+                } elseif ($result['status'] == 0) {
+                    $errorMsg .= 'Koneksi ke server API gagal. Pastikan server API berjalan.';
+                } elseif ($result['status'] == 401 || $result['status'] == 403) {
+                    $errorMsg .= 'Username atau password salah.';
+                } elseif ($result['status'] >= 500) {
+                    $errorMsg .= 'Server API sedang bermasalah. Coba lagi nanti.';
+                } else {
+                    $errorMsg .= 'Periksa username/password atau role. (Status: ' . $result['status'] . ')';
+                }
+                $error = $errorMsg;
             }
         }
         

@@ -4,16 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SP24 Presensi - Sistem Absensi Sekolah</title>
+    <link rel="icon" type="image/png" href="<?= APP_URL ?>/public/assets/images/nfc-logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="<?= APP_URL ?>/public/assets/css/style.css">
 </head>
 <body class="login-page">
+    <?php 
+    // Show debug info if error and debug parameter is set
+    if ($error && isset($_GET['debug'])) {
+        require_once __DIR__ . '/../helpers/debug.php';
+        displayDebugInfo();
+    }
+    ?>
     <div class="login-wrapper">
         <div class="login-container">
             <div class="login-brand">
                 <div class="brand-icon">
-                    <i class="fas fa-qrcode"></i>
+                    <img src="<?= APP_URL ?>/public/assets/images/nfc-logo.png" alt="logo" class="brand-logo">
                 </div>
                 <h1>SP24 Presensi</h1>
                 <p>Sistem Absensi Digital Sekolah</p>

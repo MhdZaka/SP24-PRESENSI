@@ -1,6 +1,6 @@
 <aside class="sidebar">
     <div class="sidebar-header">
-        <div class="logo"><i class="fas fa-qrcode"></i> SP24 Admin</div>
+        <div class="logo"><img src="<?= APP_URL ?>/public/assets/images/nfc-logo.png" alt="logo" class="logo-img"> SP24 Admin</div>
     </div>
     <nav class="sidebar-nav">
         <a href="?route=admin/dashboard&tab=dashboard" class="nav-item <?= ($tab ?? 'dashboard') == 'dashboard' ? 'active' : '' ?>">

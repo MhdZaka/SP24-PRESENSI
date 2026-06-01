@@ -42,7 +42,21 @@ class ApiModel {
         
         $response = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $curlError = curl_error($ch);
+        $curlErrNo = curl_errno($ch);
         curl_close($ch);
+        
+        // Log curl errors
+        if ($curlErrNo != 0) {
+            error_log('cURL Error #' . $curlErrNo . ': ' . $curlError . ' - Endpoint: ' . $endpoint);
+        }
+        
+        if ($response === false) {
+            $response = json_encode([
+                'status' => false,
+                'message' => 'cURL Error: ' . ($curlError ?: 'Unknown error')
+            ]);
+        }
         
         if ($useAuth && $httpCode == 401) {
             session_destroy();
