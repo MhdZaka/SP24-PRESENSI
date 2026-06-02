@@ -20,13 +20,23 @@ function showTambahSiswa() {
 }
 
 function editSiswa(id) {
-    fetch('index.php?route=admin/prosesSiswa&action=get&id=' + id)
-        .then(response => response.json())
+    fetch('index.php?route=admin/prosesSiswa&action=get&id=' + id, { credentials: 'same-origin' })
+        .then(async response => {
+            const text = await response.text();
+            if (!text) throw new Error('Response dari server kosong (kemungkinan sesi Anda terputus). Silakan muat ulang halaman.');
+            try {
+                return JSON.parse(text);
+            } catch (e) {
+                console.error("Server response:", text);
+                throw new Error('Format data tidak valid dari server (Session Expired). Silakan refresh browser Anda.');
+            }
+        })
         .then(data => {
+            if (data.error) throw new Error(data.error);
             document.getElementById('siswaAction').value = 'update';
-            document.getElementById('student_id').value = data.student_id;
-            document.getElementById('nis').value = data.nis;
-            document.getElementById('first_name').value = data.first_name;
+            document.getElementById('student_id').value = data.student_id || '';
+            document.getElementById('nis').value = data.nis || '';
+            document.getElementById('first_name').value = data.first_name || '';
             document.getElementById('last_name').value = data.last_name || '';
             document.getElementById('class').value = data.class || '';
             document.getElementById('parent').value = data.parent || '';
@@ -41,7 +51,7 @@ function editSiswa(id) {
             
             showModal('modalSiswa');
         })
-        .catch(error => alert('Gagal mengambil data siswa: ' + error));
+        .catch(error => alert('Gagal mengambil data siswa: ' + error.message));
 }
 
 function hapusSiswa(id) {
@@ -64,26 +74,38 @@ function showTambahGuru() {
 }
 
 function editGuru(id) {
-    fetch('index.php?route=admin/prosesGuru&action=get&id=' + id)
-        .then(response => response.json())
+    fetch('index.php?route=admin/prosesGuru&action=get&id=' + id, { credentials: 'same-origin' })
+        .then(async response => {
+            const text = await response.text();
+            if (!text) throw new Error('Response dari server kosong (kemungkinan sesi Anda terputus). Silakan muat ulang halaman.');
+            try {
+                return JSON.parse(text);
+            } catch (e) {
+                console.error("Server response:", text);
+                throw new Error('Format data tidak valid dari server (Session Expired). Silakan refresh browser Anda.');
+            }
+        })
         .then(data => {
+            if (data.error) throw new Error(data.error);
             document.getElementById('guruAction').value = 'update';
-            document.getElementById('teacher_id').value = data.teacher_id;
-            document.getElementById('guru_username').value = data.username;
-            document.getElementById('guru_first_name').value = data.first_name;
+            document.getElementById('teacher_id').value = data.teacher_id || '';
+            document.getElementById('guru_username').value = data.username || '';
+            document.getElementById('guru_first_name').value = data.first_name || '';
             document.getElementById('guru_last_name').value = data.last_name || '';
             document.getElementById('guru_gender').value = data.gender || 'L';
             document.getElementById('guru_age').value = data.age || '';
             document.getElementById('modalGuruTitle').innerText = 'Edit Guru';
             
-            // Make password optional for editing
+            // Logika UI Password
             const pwdInput = document.getElementById('guru_password');
-            pwdInput.required = false;
-            pwdInput.placeholder = 'Kosongkan jika tidak diubah';
-            
+            if (pwdInput) {
+                pwdInput.removeAttribute('required');
+                pwdInput.setAttribute('placeholder', 'Kosongkan jika tidak diubah');
+            }
+
             showModal('modalGuru');
         })
-        .catch(error => alert('Gagal mengambil data guru: ' + error));
+        .catch(error => alert('Gagal mengambil data guru: ' + error.message));
 }
 
 function hapusGuru(id) {
