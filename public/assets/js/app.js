@@ -158,61 +158,90 @@ window.onload = function () {
 
 let nfcSocket = null;
 
+function initNfcSocket() {
+    if (!nfcSocket) {
+        nfcSocket = io("https://sp24api.wind.my.id");
+
+        nfcSocket.on("connect", () => {
+            console.log("Terhubung ke Server dengan ID:", nfcSocket.id);
+        });
+
+        nfcSocket.on("pairing-code-generated", (code) => {
+            let display = document.getElementById('pairingCodeDisplay');
+            if (display) display.innerText = code;
+            
+            let status = document.getElementById('pairingStatus');
+            if (status) status.innerHTML = '<i class="fas fa-check-circle"></i> Menunggu scan NFC dari Android...';
+        });
+
+        nfcSocket.on("nfc-received", (data) => {
+            console.log("DATA NFC DITERIMA!", data);
+            
+            // Cek apakah modal Form Siswa sedang terbuka
+            const modalSiswa = document.getElementById('modalSiswa');
+            const isModalSiswaOpen = modalSiswa && (modalSiswa.style.display === 'block' || window.getComputedStyle(modalSiswa).display === 'block');
+            
+            if (isModalSiswaOpen) {
+                // Jika sedang di form siswa, otomatis isi input Tag ID
+                const tagIdInput = document.getElementById('tag_id');
+                if (tagIdInput) {
+                    tagIdInput.value = data.tagId;
+                    // Beri efek visual hijau sejenak agar user sadar
+                    const originalBg = tagIdInput.style.backgroundColor;
+                    tagIdInput.style.backgroundColor = '#d1fae5';
+                    setTimeout(() => { tagIdInput.style.backgroundColor = originalBg; }, 1500);
+                }
+            } else {
+                // Jika modal siswa tidak terbuka, tampilkan di modal pairing atau proses absensi
+                let resultDiv = document.getElementById('pairingResult');
+                if (resultDiv) {
+                    resultDiv.style.display = 'block';
+                    resultDiv.innerHTML = '<strong>Data NFC Diterima!</strong><br>Tag ID: <code>' + data.tagId + '</code><br>Waktu: ' + new Date(data.timestamp).toLocaleTimeString();
+                }
+                catatPresensiDariNFC(data.tagId);
+            }
+        });
+
+        nfcSocket.on("disconnect", () => {
+            let status = document.getElementById('pairingStatus');
+            if (status) status.innerHTML = '<i class="fas fa-exclamation-triangle" style="color:#ef4444;"></i> Terputus dari server.';
+        });
+
+        nfcSocket.on("connect_error", (err) => {
+            let status = document.getElementById('pairingStatus');
+            if (status) status.innerHTML = '<i class="fas fa-exclamation-triangle" style="color:#ef4444;"></i> Gagal terhubung ke server.';
+        });
+    }
+}
+
 function bukaModalPairing() {
     showModal('modalPairing');
     document.getElementById('pairingCodeDisplay').innerText = '----';
     document.getElementById('pairingStatus').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menghubungkan ke server...';
     document.getElementById('pairingResult').style.display = 'none';
 
-    if (!nfcSocket) {
-        nfcSocket = io("https://sp24api.wind.my.id");
+    // Pastikan socket sudah diinisialisasi
+    initNfcSocket();
 
-        nfcSocket.on("connect", () => {
-            console.log("Terhubung ke Server dengan ID:", nfcSocket.id);
-            nfcSocket.emit("request-pairing-code");
-        });
-
-        nfcSocket.on("pairing-code-generated", (code) => {
-            document.getElementById('pairingCodeDisplay').innerText = code;
-            document.getElementById('pairingStatus').innerHTML = '<i class="fas fa-check-circle"></i> Menunggu scan NFC dari Android...';
-        });
-
-        nfcSocket.on("nfc-received", (data) => {
-            console.log("DATA NFC DITERIMA!", data);
-            let resultDiv = document.getElementById('pairingResult');
-            resultDiv.style.display = 'block';
-            resultDiv.innerHTML = '<strong>Data NFC Diterima!</strong><br>Tag ID: <code>' + data.tagId + '</code><br>Waktu: ' + new Date(data.timestamp).toLocaleTimeString();
-
-            catatPresensiDariNFC(data.tagId);
-        });
-
-        nfcSocket.on("disconnect", () => {
-            document.getElementById('pairingStatus').innerHTML = '<i class="fas fa-exclamation-triangle" style="color:#ef4444;"></i> Terputus dari server.';
-        });
-
-        nfcSocket.on("connect_error", (err) => {
-            document.getElementById('pairingStatus').innerHTML = '<i class="fas fa-exclamation-triangle" style="color:#ef4444;"></i> Gagal terhubung ke server.';
-        });
+    if (nfcSocket.connected) {
+        nfcSocket.emit("request-pairing-code");
     } else {
-        if (nfcSocket.connected) {
+        // Jika belum terhubung (baru inisialisasi), tunggu event connect
+        nfcSocket.once("connect", () => {
             nfcSocket.emit("request-pairing-code");
-        } else {
-            nfcSocket.connect();
-        }
+        });
     }
 }
 
 function tutupModalPairing() {
     closeModal('modalPairing');
-    if (nfcSocket) {
-        nfcSocket.disconnect();
-        nfcSocket = null;
-    }
+    // Koneksi TETAP DIPERTAHANKAN agar web bisa menerima scan NFC saat mengisi form siswa
 }
 
 function catatPresensiDariNFC(tagId) {
 
-    document.getElementById('pairingStatus').innerHTML = '<i class="fas fa-check"></i> Proses pencatatan presensi...';
+    let status = document.getElementById('pairingStatus');
+    if (status) status.innerHTML = '<i class="fas fa-check"></i> Proses pencatatan presensi...';
 
     let formData = new FormData();
     formData.append('tag_id', tagId);
@@ -228,3 +257,5 @@ function catatPresensiDariNFC(tagId) {
     */
 }
 
+// Inisialisasi koneksi socket background saat halaman dimuat
+document.addEventListener('DOMContentLoaded', initNfcSocket);
