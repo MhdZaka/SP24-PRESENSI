@@ -52,8 +52,18 @@ class AdminController {
                 'tag_id' => $_POST['tag_id'],
                 'age' => (int)$_POST['age']
             ];
-            StudentModel::create($data);
-            header('Location: ' . APP_URL . '/app/index.php?route=admin/dashboard&tab=siswa');
+            $result = StudentModel::create($data);
+            if ($result['status'] >= 200 && $result['status'] < 300) {
+                if (isset($result['data']['success']) && $result['data']['success'] == false) {
+                    $errorMsg = urlencode($result['data']['message'] ?? 'Gagal menambah siswa.');
+                    header('Location: ' . APP_URL . '/app/index.php?route=admin/dashboard&tab=siswa&error=' . $errorMsg);
+                    exit();
+                }
+                header('Location: ' . APP_URL . '/app/index.php?route=admin/dashboard&tab=siswa&msg=added');
+            } else {
+                $errorMsg = urlencode($result['data']['message'] ?? 'Terjadi kesalahan pada server.');
+                header('Location: ' . APP_URL . '/app/index.php?route=admin/dashboard&tab=siswa&error=' . $errorMsg);
+            }
             exit();
         }
 
@@ -68,8 +78,18 @@ class AdminController {
                 'tag_id' => $_POST['tag_id'],
                 'age' => (int)$_POST['age']
             ];
-            StudentModel::update($id, $data);
-            header('Location: ' . APP_URL . '/app/index.php?route=admin/dashboard&tab=siswa');
+            $result = StudentModel::update($id, $data);
+            if ($result['status'] >= 200 && $result['status'] < 300) {
+                if (isset($result['data']['success']) && $result['data']['success'] == false) {
+                    $errorMsg = urlencode($result['data']['message'] ?? 'Gagal mengedit siswa.');
+                    header('Location: ' . APP_URL . '/app/index.php?route=admin/dashboard&tab=siswa&error=' . $errorMsg);
+                    exit();
+                }
+                header('Location: ' . APP_URL . '/app/index.php?route=admin/dashboard&tab=siswa&msg=updated');
+            } else {
+                $errorMsg = urlencode($result['data']['message'] ?? 'Terjadi kesalahan pada server.');
+                header('Location: ' . APP_URL . '/app/index.php?route=admin/dashboard&tab=siswa&error=' . $errorMsg);
+            }
             exit();
         }
 
@@ -105,8 +125,18 @@ class AdminController {
                 'age' => (int)$_POST['age'],
                 'gender' => $_POST['gender']
             ];
-            TeacherModel::create($data);
-            header('Location: ' . APP_URL . '/app/index.php?route=admin/dashboard&tab=guru');
+            $result = TeacherModel::create($data);
+            if ($result['status'] >= 200 && $result['status'] < 300) {
+                if (isset($result['data']['success']) && $result['data']['success'] == false) {
+                    $errorMsg = urlencode($result['data']['message'] ?? 'Gagal menambah guru.');
+                    header('Location: ' . APP_URL . '/app/index.php?route=admin/dashboard&tab=guru&error=' . $errorMsg);
+                    exit();
+                }
+                header('Location: ' . APP_URL . '/app/index.php?route=admin/dashboard&tab=guru&msg=added');
+            } else {
+                $errorMsg = urlencode($result['data']['message'] ?? 'Terjadi kesalahan pada server.');
+                header('Location: ' . APP_URL . '/app/index.php?route=admin/dashboard&tab=guru&error=' . $errorMsg);
+            }
             exit();
         }
 
@@ -122,8 +152,18 @@ class AdminController {
             if (!empty($_POST['password'])) {
                 $data['password'] = $_POST['password'];
             }
-            TeacherModel::update($id, $data);
-            header('Location: ' . APP_URL . '/app/index.php?route=admin/dashboard&tab=guru');
+            $result = TeacherModel::update($id, $data);
+            if ($result['status'] >= 200 && $result['status'] < 300) {
+                if (isset($result['data']['success']) && $result['data']['success'] == false) {
+                    $errorMsg = urlencode($result['data']['message'] ?? 'Gagal mengedit guru.');
+                    header('Location: ' . APP_URL . '/app/index.php?route=admin/dashboard&tab=guru&error=' . $errorMsg);
+                    exit();
+                }
+                header('Location: ' . APP_URL . '/app/index.php?route=admin/dashboard&tab=guru&msg=updated');
+            } else {
+                $errorMsg = urlencode($result['data']['message'] ?? 'Terjadi kesalahan pada server.');
+                header('Location: ' . APP_URL . '/app/index.php?route=admin/dashboard&tab=guru&error=' . $errorMsg);
+            }
             exit();
         }
 

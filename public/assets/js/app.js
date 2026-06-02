@@ -42,6 +42,12 @@ function showTambahGuru() {
     document.getElementById('guruAction').value = 'create';
     document.getElementById('formGuru').reset();
     document.getElementById('modalGuruTitle').innerText = 'Tambah Guru';
+    
+    // Make password required for new users
+    const pwdInput = document.getElementById('guru_password');
+    pwdInput.required = true;
+    pwdInput.placeholder = 'Wajib diisi (Password Baru)';
+    
     showModal('modalGuru');
 }
 
@@ -57,6 +63,12 @@ function editGuru(id) {
             document.getElementById('guru_gender').value = data.gender || 'L';
             document.getElementById('guru_age').value = data.age || '';
             document.getElementById('modalGuruTitle').innerText = 'Edit Guru';
+            
+            // Make password optional for editing
+            const pwdInput = document.getElementById('guru_password');
+            pwdInput.required = false;
+            pwdInput.placeholder = 'Kosongkan jika tidak diubah';
+            
             showModal('modalGuru');
         })
         .catch(error => alert('Gagal mengambil data guru: ' + error));
