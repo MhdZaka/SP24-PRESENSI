@@ -1,13 +1,13 @@
 <?php
 
 class ApiModel {
-    protected static function request($endpoint, $method = 'GET', $data = null, $useAuth = true) {
+    protected static function request($endpoint, $method = 'GET', $data = null, $useAuth = true, $isRetry = false) {
         $cacheKey = 'api_cache_' . md5($endpoint);
-        if ($method === 'GET') {
+        if ($method === 'GET' && !$isRetry) {
             if (isset($_SESSION[$cacheKey]) && (time() - $_SESSION[$cacheKey]['time']) < 60) {
                 return $_SESSION[$cacheKey]['response'];
             }
-        } else {
+        } elseif (!$isRetry) {
             foreach ($_SESSION as $key => $value) {
                 if (strpos($key, 'api_cache_') === 0) {
                     unset($_SESSION[$key]);
@@ -29,6 +29,29 @@ class ApiModel {
             $headers[] = 'Authorization: Bearer ' . $_SESSION['access_token'];
         }
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        
+        // Kirim cookies yang tersimpan (misal refresh token)
+        if (isset($_SESSION['api_cookies'])) {
+            $cookieStr = [];
+            foreach ($_SESSION['api_cookies'] as $k => $v) {
+                $cookieStr[] = "$k=$v";
+            }
+            curl_setopt($ch, CURLOPT_COOKIE, implode('; ', $cookieStr));
+        }
+
+        // Tangkap header Set-Cookie dari response API
+        curl_setopt($ch, CURLOPT_HEADERFUNCTION, function($curl, $header) {
+            if (stripos($header, 'Set-Cookie:') === 0) {
+                if (preg_match('/^Set-Cookie:\s*([^;]+)/', $header, $matches)) {
+                    parse_str(strtr($matches[1], ['&' => '%26', '+' => '%2B', ';' => '&']), $cookies);
+                    if (!isset($_SESSION['api_cookies'])) $_SESSION['api_cookies'] = [];
+                    foreach ($cookies as $k => $v) {
+                        $_SESSION['api_cookies'][$k] = $v;
+                    }
+                }
+            }
+            return strlen($header);
+        });
         
         if ($method == 'POST') {
             curl_setopt($ch, CURLOPT_POST, true);
@@ -58,8 +81,32 @@ class ApiModel {
             ]);
         }
         
+        // Handle 401 Unauthorized via Refresh Token
+        if ($useAuth && $httpCode == 401 && !$isRetry && isset($_SESSION['api_cookies']['refreshToken'])) {
+            // Lakukan percobaan refresh token ke API
+            $refreshResult = self::request('/auth/refresh-token', 'POST', null, false, true);
+            if ($refreshResult['status'] == 200 && isset($refreshResult['data']['data']['accessToken'])) {
+                // Berhasil refresh, simpan token baru
+                $_SESSION['access_token'] = $refreshResult['data']['data']['accessToken'];
+                // Ulangi request asli dengan token baru
+                return self::request($endpoint, $method, $data, $useAuth, true);
+            }
+        }
+
+        // Jika masih 401, kick user ke login
         if ($useAuth && $httpCode == 401) {
             session_destroy();
+            
+            // Cek apakah request dari fetch / AJAX (hindari redirect HTML di JSON)
+            $isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+            $isFetch = isset($_SERVER['HTTP_SEC_FETCH_DEST']) && $_SERVER['HTTP_SEC_FETCH_DEST'] === 'empty';
+            
+            if ($isAjax || $isFetch) {
+                header('Content-Type: application/json');
+                echo json_encode(['error' => 'Sesi login telah berakhir. Silakan muat ulang dan login kembali.']);
+                exit();
+            }
+            
             header('Location: ' . APP_URL . '/app/');
             exit();
         }

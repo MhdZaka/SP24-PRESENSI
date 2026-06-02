@@ -27,6 +27,9 @@ class AuthController {
             if ($result['status'] == 200 && isset($result['data']['data']['accessToken'])) {
                 $data = $result['data']['data'];
                 $_SESSION['access_token'] = $data['accessToken'];
+                if (isset($data['refreshToken'])) {
+                    $_SESSION['refresh_token'] = $data['refreshToken'];
+                }
                 
                 if ($role == 'admin') {
                     $_SESSION['user'] = [
