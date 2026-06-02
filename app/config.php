@@ -1,5 +1,6 @@
 <?php
 session_start();
+date_default_timezone_set('Asia/Jakarta');
 
 define('APP_NAME', 'SP24 Presensi');
 $isHttps = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') || 
@@ -11,7 +12,8 @@ $isTunnel = strpos($host, 'devtunnels.ms') !== false ||
             strpos($host, 'vscode.dev') !== false ||
             strpos($host, '127.0.0.1') !== false && $_SERVER['SERVER_PORT'] != 80;
 
-define('APP_URL', $protocol . $host . '/sp24-presensi');
+$basePath = (strpos($host, 'localhost') !== false) ? '/sp24-presensi' : '';
+define('APP_URL', $protocol . $host . $basePath);
 
 if ($isTunnel || strpos($host, 'localhost') !== false) {
     define('APP_MODE', 'local');

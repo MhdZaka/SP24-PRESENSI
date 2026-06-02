@@ -10,6 +10,10 @@ class StudentModel extends ApiModel {
         return self::request('/students', 'POST', $data);
     }
 
+    public static function getById($id) {
+        return self::request('/students/' . $id, 'GET');
+    }
+
     public static function update($id, $data) {
         return self::request('/students/' . $id, 'PUT', $data);
     }

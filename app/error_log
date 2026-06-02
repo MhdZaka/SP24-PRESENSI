@@ -1,0 +1,84 @@
+[02-Jun-2026 00:06:36 Asia/Jakarta] Login attempt - Role: admin, Response: {"status":200,"data":{"success":true,"message":"Login Administrator berhasil","data":{"admin":{"admin_id":1,"username":"admin"},"accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzgwMzMzNTk2LCJleHAiOjE3ODAzMzQ0OTZ9.89zbfb5W2x4Rz7pw01a6Pmo1zYEcswqtEUV-totV7og"}}}
+[02-Jun-2026 00:09:25 Asia/Jakarta] Login attempt - Role: admin, Response: {"status":200,"data":{"success":true,"message":"Login Administrator berhasil","data":{"admin":{"admin_id":1,"username":"admin"},"accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzgwMzMzNzY1LCJleHAiOjE3ODAzMzQ2NjV9.D3OEUrCU89-8Rv2jxB6XvsYXsPY1U_ovRxT_hA6LrZ4"}}}
+[02-Jun-2026 00:10:08 Asia/Jakarta] Login attempt - Role: admin, Response: {"status":200,"data":{"success":true,"message":"Login Administrator berhasil","data":{"admin":{"admin_id":1,"username":"admin"},"accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzgwMzMzODA4LCJleHAiOjE3ODAzMzQ3MDh9.3jo2l1t6eWEtXzRDOKHN1oCoQEDvHnUSzvLqeB_Zdq0"}}}
+[02-Jun-2026 00:41:10 Asia/Jakarta] Login attempt - Role: admin, Response: {"status":200,"data":{"success":true,"message":"Login Administrator berhasil","data":{"admin":{"admin_id":1,"username":"admin"},"accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzgwMzM1NjY5LCJleHAiOjE3ODAzMzY1Njl9.4qMVCdyo9W0GMQlAlg-WoMkwOtHKg3Z4o3bkC4eeK1A"}}}
+[02-Jun-2026 00:47:09 Asia/Jakarta] Login attempt - Role: admin, Response: {"status":200,"data":{"success":true,"message":"Login Administrator berhasil","data":{"admin":{"admin_id":1,"username":"admin"},"accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzgwMzM2MDI4LCJleHAiOjE3ODAzMzY5Mjh9.uHK1zpoyLwzyejUItoesOoH7vuOp2to8tamTHXG6b6I"}}}
+[02-Jun-2026 01:03:08 Asia/Jakarta] Login attempt - Role: admin, Response: {"status":200,"data":{"success":true,"message":"Login Administrator berhasil","data":{"admin":{"admin_id":1,"username":"admin"},"accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzgwMzM2OTg4LCJleHAiOjE3ODAzMzc4ODh9.t1mKIEAdVp4QoQAGjym3OkGsezwjX89sCKJCoa3z0_Q"}}}
+[02-Jun-2026 01:10:19 Asia/Jakarta] Login attempt - Role: admin, Response: {"status":200,"data":{"success":true,"message":"Login Administrator berhasil","data":{"admin":{"admin_id":1,"username":"admin"},"accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzgwMzM3NDE4LCJleHAiOjE3ODAzMzgzMTh9.H_uZl3Iw7PJYlhlPvXJ1XnE_viqC8zoJ1Eu79rj-DZY"}}}
+[02-Jun-2026 01:11:26 Asia/Jakarta] Login attempt - Role: admin, Response: {"status":200,"data":{"success":true,"message":"Login Administrator berhasil","data":{"admin":{"admin_id":1,"username":"admin"},"accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzgwMzM3NDg2LCJleHAiOjE3ODAzMzgzODZ9.kBHjjRFNkToTg2mwIKfAsSBSACWGJE6D34igfEcGS0k"}}}
+[02-Jun-2026 01:21:15 Asia/Jakarta] Login attempt - Role: admin, Response: {"status":200,"data":{"success":true,"message":"Login Administrator berhasil","data":{"admin":{"admin_id":1,"username":"admin"},"accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzgwMzM4MDc1LCJleHAiOjE3ODAzMzg5NzV9.F4ph1ztrS7da_C8FaCCy9Fh_WXYPgryN21B4eCrlFqc"}}}
+[02-Jun-2026 01:29:21 Asia/Jakarta] Login attempt - Role: guru, Response: {"status":401,"data":{"success":false,"message":"Username atau password salah."}}
+[02-Jun-2026 01:29:31 Asia/Jakarta] Login attempt - Role: admin, Response: {"status":200,"data":{"success":true,"message":"Login Administrator berhasil","data":{"admin":{"admin_id":1,"username":"admin"},"accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzgwMzM4NTcxLCJleHAiOjE3ODAzMzk0NzF9.EmT-CWtKTiHoZ8Ujh53aSfQah853nwtyZ79UrNSylBo"}}}
+[02-Jun-2026 01:30:22 Asia/Jakarta] Login attempt - Role: admin, Response: {"status":200,"data":{"success":true,"message":"Login Administrator berhasil","data":{"admin":{"admin_id":1,"username":"admin"},"accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzgwMzM4NjIyLCJleHAiOjE3ODAzMzk1MjJ9.jYyWEBOFRKIHS3FFZeBm6ns1cRNGPFi1r0xfj3P2Apk"}}}
+[02-Jun-2026 01:32:40 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Call to protected method ApiModel::request() from context 'AdminController' in /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/controllers/AdminController.php:78
+Stack trace:
+#0 /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/index.php(26): AdminController->prosesSiswa()
+#1 {main}
+  thrown in /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/controllers/AdminController.php on line 78
+[02-Jun-2026 01:32:44 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Call to protected method ApiModel::request() from context 'AdminController' in /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/controllers/AdminController.php:78
+Stack trace:
+#0 /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/index.php(26): AdminController->prosesSiswa()
+#1 {main}
+  thrown in /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/controllers/AdminController.php on line 78
+[02-Jun-2026 01:32:48 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Call to protected method ApiModel::request() from context 'AdminController' in /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/controllers/AdminController.php:78
+Stack trace:
+#0 /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/index.php(26): AdminController->prosesSiswa()
+#1 {main}
+  thrown in /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/controllers/AdminController.php on line 78
+[02-Jun-2026 01:32:54 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Call to protected method ApiModel::request() from context 'AdminController' in /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/controllers/AdminController.php:78
+Stack trace:
+#0 /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/index.php(26): AdminController->prosesSiswa()
+#1 {main}
+  thrown in /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/controllers/AdminController.php on line 78
+[02-Jun-2026 01:33:04 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Call to protected method ApiModel::request() from context 'AdminController' in /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/controllers/AdminController.php:132
+Stack trace:
+#0 /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/index.php(29): AdminController->prosesGuru()
+#1 {main}
+  thrown in /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/controllers/AdminController.php on line 132
+[02-Jun-2026 01:34:11 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Call to protected method ApiModel::request() from context 'AdminController' in /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/controllers/AdminController.php:78
+Stack trace:
+#0 /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/index.php(26): AdminController->prosesSiswa()
+#1 {main}
+  thrown in /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/controllers/AdminController.php on line 78
+[02-Jun-2026 01:34:22 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Call to protected method ApiModel::request() from context 'AdminController' in /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/controllers/AdminController.php:78
+Stack trace:
+#0 /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/index.php(26): AdminController->prosesSiswa()
+#1 {main}
+  thrown in /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/controllers/AdminController.php on line 78
+[02-Jun-2026 01:34:49 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Call to protected method ApiModel::request() from context 'AdminController' in /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/controllers/AdminController.php:78
+Stack trace:
+#0 /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/index.php(26): AdminController->prosesSiswa()
+#1 {main}
+  thrown in /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/controllers/AdminController.php on line 78
+[02-Jun-2026 01:34:54 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Call to protected method ApiModel::request() from context 'AdminController' in /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/controllers/AdminController.php:78
+Stack trace:
+#0 /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/index.php(26): AdminController->prosesSiswa()
+#1 {main}
+  thrown in /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/controllers/AdminController.php on line 78
+[02-Jun-2026 01:34:55 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Call to protected method ApiModel::request() from context 'AdminController' in /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/controllers/AdminController.php:78
+Stack trace:
+#0 /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/index.php(26): AdminController->prosesSiswa()
+#1 {main}
+  thrown in /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/controllers/AdminController.php on line 78
+[02-Jun-2026 01:34:57 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Call to protected method ApiModel::request() from context 'AdminController' in /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/controllers/AdminController.php:78
+Stack trace:
+#0 /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/index.php(26): AdminController->prosesSiswa()
+#1 {main}
+  thrown in /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/controllers/AdminController.php on line 78
+[02-Jun-2026 01:35:03 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Call to protected method ApiModel::request() from context 'AdminController' in /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/controllers/AdminController.php:78
+Stack trace:
+#0 /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/index.php(26): AdminController->prosesSiswa()
+#1 {main}
+  thrown in /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/controllers/AdminController.php on line 78
+[02-Jun-2026 01:38:20 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Call to protected method ApiModel::request() from context 'AdminController' in /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/controllers/AdminController.php:78
+Stack trace:
+#0 /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/index.php(26): AdminController->prosesSiswa()
+#1 {main}
+  thrown in /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/controllers/AdminController.php on line 78
+[02-Jun-2026 10:48:41 Asia/Jakarta] Login attempt - Role: admin, Response: {"status":200,"data":{"success":true,"message":"Login Administrator berhasil","data":{"admin":{"admin_id":1,"username":"admin"},"accessToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzgwMzcyMTIxLCJleHAiOjE3ODAzNzMwMjF9.fJ5i3mvPg3qo2tLi_Zyk5dCqojXWe2IRTM2yJQvczg0"}}}
+[02-Jun-2026 10:50:59 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Call to protected method ApiModel::request() from context 'AdminController' in /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/controllers/AdminController.php:132
+Stack trace:
+#0 /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/index.php(29): AdminController->prosesGuru()
+#1 {main}
+  thrown in /home/rsuw9855/public_html/sp24-absensi.rsukaryahusada.com/app/controllers/AdminController.php on line 132
+[02-Jun-2026 12:15:25 Asia/Jakarta] Login attempt - Role: guru, Response: {"status":400,"data":{"success":false,"message":"Username dan password wajib diisi!"}}

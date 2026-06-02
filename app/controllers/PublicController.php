@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../models/ApiModel.php';
+require_once __DIR__ . '/../models/PresenceModel.php';
 
 class PublicController {
     public function cekAnak() {
@@ -9,7 +10,7 @@ class PublicController {
         $error = '';
 
         if ($nis) {
-            $response = ApiModel::request('/presences/parent/' . $nis, 'GET', null, false);
+            $response = PresenceModel::getByParentNis($nis);
             
             if ($response['status'] == 200 && isset($response['data']['success']) && $response['data']['success'] == true) {
                 $data = $response['data']['data'];

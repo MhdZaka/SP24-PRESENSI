@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cek Absensi Anak - SP24 Presensi</title>
+    <link rel="shortcut icon" type="image/png" href="<?= APP_URL ?>/public/assets/images/favicon.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -91,6 +92,7 @@
         </div>
         <div class="card-body">
             <form method="GET" class="search-form">
+                <input type="hidden" name="route" value="public/cekAnak">
                 <input type="text" name="nis" class="search-input" placeholder="Contoh: 12345" value="<?= htmlspecialchars($nis) ?>" required>
                 <button type="submit" class="search-btn"><i class="fas fa-magnifying-glass"></i> Cek Sekarang</button>
             </form>

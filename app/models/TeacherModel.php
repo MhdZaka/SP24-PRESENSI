@@ -24,6 +24,10 @@ class TeacherModel extends ApiModel {
         return self::request('/teachers', 'POST', $data);
     }
 
+    public static function getById($id) {
+        return self::request('/teachers/' . $id, 'GET');
+    }
+
     public static function update($id, $data) {
         return self::request('/teachers/' . $id, 'PUT', $data);
     }

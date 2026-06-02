@@ -75,7 +75,7 @@ class AdminController {
 
         if ($action == 'get' && $_SERVER['REQUEST_METHOD'] == 'GET') {
             $id = $_GET['id'];
-            $result = StudentModel::request('/students/' . $id, 'GET');
+            $result = StudentModel::getById($id);
             header('Content-Type: application/json');
             echo json_encode($result['data']['data'] ?? []);
             exit();
@@ -129,7 +129,7 @@ class AdminController {
 
         if ($action == 'get' && $_SERVER['REQUEST_METHOD'] == 'GET') {
             $id = $_GET['id'];
-            $result = TeacherModel::request('/teachers/' . $id, 'GET');
+            $result = TeacherModel::getById($id);
             header('Content-Type: application/json');
             echo json_encode($result['data']['data'] ?? []);
             exit();

@@ -9,4 +9,8 @@ class PresenceModel extends ApiModel {
     public static function create($data) {
         return self::request('/presences', 'POST', $data);
     }
+
+    public static function getByParentNis($nis) {
+        return self::request('/presences/parent/' . $nis, 'GET', null, false);
+    }
 }
