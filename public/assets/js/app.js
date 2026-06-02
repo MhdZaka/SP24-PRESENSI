@@ -174,6 +174,24 @@ function initNfcSocket() {
             if (status) status.innerHTML = '<i class="fas fa-check-circle"></i> Menunggu scan NFC dari Android...';
         });
 
+        nfcSocket.on("device-connected", (data) => {
+            console.log("Device Connected!", data);
+            
+            // 1. Ubah button Pairing Scanner menjadi Perangkat Terhubung
+            const btnPairing = document.getElementById('btnPairingScanner');
+            if (btnPairing) {
+                btnPairing.innerHTML = '<i class="fas fa-check-circle"></i> Perangkat Terhubung';
+                btnPairing.style.background = '#0284c7'; // Warna biru
+            }
+            
+            // 2. Beritahu user & tutup modal
+            let status = document.getElementById('pairingStatus');
+            if (status) status.innerHTML = '<i class="fas fa-mobile-alt"></i> Perangkat Android berhasil terhubung!';
+            
+            alert('Perangkat Android berhasil terhubung!');
+            tutupModalPairing();
+        });
+
         nfcSocket.on("nfc-received", (data) => {
             console.log("DATA NFC DITERIMA!", data);
             
