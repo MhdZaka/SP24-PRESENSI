@@ -143,3 +143,84 @@ window.onload = function() {
         window.history.replaceState({}, document.title, window.location.pathname + '?tab=' + urlParams.get('tab'));
     }
 }
+
+// --- NFC PAIRING LOGIC ---
+let nfcSocket = null;
+
+function bukaModalPairing() {
+    showModal('modalPairing');
+    document.getElementById('pairingCodeDisplay').innerText = '----';
+    document.getElementById('pairingStatus').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menghubungkan ke server...';
+    document.getElementById('pairingResult').style.display = 'none';
+
+    if (!nfcSocket) {
+        // Menginisialisasi socket client
+        nfcSocket = io("https://sp24api.wind.my.id");
+
+        nfcSocket.on("connect", () => {
+            console.log("Terhubung ke Server dengan ID:", nfcSocket.id);
+            // LANGKAH 1: Meminta kode pairing ke server
+            nfcSocket.emit("request-pairing-code");
+        });
+
+        // LANGKAH 2: Menerima kode pairing yang dihasilkan server
+        nfcSocket.on("pairing-code-generated", (code) => {
+            document.getElementById('pairingCodeDisplay').innerText = code;
+            document.getElementById('pairingStatus').innerHTML = '<i class="fas fa-check-circle"></i> Menunggu scan NFC dari Android...';
+        });
+
+        // LANGKAH 3: Menerima data NFC yang diteruskan oleh server
+        nfcSocket.on("nfc-received", (data) => {
+            console.log("DATA NFC DITERIMA!", data);
+            let resultDiv = document.getElementById('pairingResult');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<strong>Data NFC Diterima!</strong><br>Tag ID: <code>' + data.tagId + '</code><br>Waktu: ' + new Date(data.timestamp).toLocaleTimeString();
+            
+            // Catat presensi otomatis jika Tag ID sesuai dengan data siswa
+            catatPresensiDariNFC(data.tagId);
+        });
+
+        nfcSocket.on("disconnect", () => {
+            document.getElementById('pairingStatus').innerHTML = '<i class="fas fa-exclamation-triangle" style="color:#ef4444;"></i> Terputus dari server.';
+        });
+
+        nfcSocket.on("connect_error", (err) => {
+            document.getElementById('pairingStatus').innerHTML = '<i class="fas fa-exclamation-triangle" style="color:#ef4444;"></i> Gagal terhubung ke server.';
+        });
+    } else {
+        if (nfcSocket.connected) {
+            nfcSocket.emit("request-pairing-code");
+        } else {
+            nfcSocket.connect();
+        }
+    }
+}
+
+function tutupModalPairing() {
+    closeModal('modalPairing');
+    if (nfcSocket) {
+        nfcSocket.disconnect();
+        nfcSocket = null;
+    }
+}
+
+function catatPresensiDariNFC(tagId) {
+    // Fungsi ini bisa dikembangkan untuk langsung mengirim POST request ke server Anda
+    // Misalnya menggunakan fetch API untuk absen otomatis
+    document.getElementById('pairingStatus').innerHTML = '<i class="fas fa-check"></i> Proses pencatatan presensi...';
+    
+    // Asumsi ada API endpoint untuk catat presensi via NFC di backend SP24
+    let formData = new FormData();
+    formData.append('tag_id', tagId);
+    
+    /* 
+    fetch('index.php?route=admin/catatPresensiNFC', {
+        method: 'POST',
+        body: formData
+    }).then(res => {
+        // refresh data jika berhasil
+        location.reload();
+    });
+    */
+}
+

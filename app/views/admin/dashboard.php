@@ -191,6 +191,9 @@
                         <button onclick="resetFilter()" class="btn-sm-primary" style="background:#64748b;">
                             <i class="fas fa-undo-alt"></i> Reset
                         </button>
+                        <button onclick="bukaModalPairing()" class="btn-sm-primary" style="background:#059669; margin-left: auto;">
+                            <i class="fas fa-mobile-alt"></i> Pairing Scanner
+                        </button>
                     </div>
                 </div>
                 <div class="card-body">
@@ -313,6 +316,7 @@
 </div>
 
 <?php include 'includes/modals.php'; ?>
+<script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
 <script src="<?= APP_URL ?>/public/assets/js/app.js?v=<?= time() ?>"></script>
 </body>
 </html>

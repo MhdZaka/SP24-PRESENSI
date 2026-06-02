@@ -104,3 +104,28 @@
         </form>
     </div>
 </div>
+
+<div id="modalPairing" class="modal">
+    <div class="modal-content" style="text-align: center; max-width: 400px;">
+        <div class="modal-header" style="justify-content: center;">
+            <h3 id="modalPairingTitle"><i class="fas fa-qrcode"></i> Pairing Scanner NFC</h3>
+            <span class="modal-close" onclick="tutupModalPairing()" style="position: absolute; right: 20px;">&times;</span>
+        </div>
+        <div class="modal-body">
+            <p style="margin-bottom: 15px; color: #64748b; font-size: 0.9rem;">
+                Masukkan kode berikut pada aplikasi Android SP24 Scanner Anda untuk menghubungkan.
+            </p>
+            <div id="pairingCodeContainer" style="background: #EBF4F6; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                <h1 id="pairingCodeDisplay" style="font-size: 2.5rem; letter-spacing: 5px; color: #09637E; margin: 0;">----</h1>
+            </div>
+            <div id="pairingStatus" style="font-size: 0.85rem; color: #059669; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                <i class="fas fa-spinner fa-spin"></i> Menghubungkan ke server...
+            </div>
+            <div id="pairingResult" style="margin-top: 15px; display: none; background: #d1fae5; color: #065f46; padding: 10px; border-radius: 8px; font-size: 0.85rem;">
+            </div>
+        </div>
+        <div class="modal-footer" style="justify-content: center;">
+            <button type="button" class="btn-cancel" onclick="tutupModalPairing()">Batal / Tutup</button>
+        </div>
+    </div>
+</div>
