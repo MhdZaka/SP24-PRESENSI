@@ -72,12 +72,12 @@ function uploadFotoSiswa(id) {
     let input = document.createElement('input');
     input.type = 'file';
     input.accept = 'image/jpeg,image/png,image/jpg,image/webp';
-    input.onchange = function(e) {
+    input.onchange = function (e) {
         let file = e.target.files[0];
         let formData = new FormData();
         formData.append('student_id', id);
         formData.append('photo', file);
-        
+
         if (confirm('Upload foto untuk siswa ini?')) {
             fetch('index.php?route=admin/uploadFotoSiswa', {
                 method: 'POST',
@@ -99,12 +99,12 @@ function uploadFotoGuru(id) {
     let input = document.createElement('input');
     input.type = 'file';
     input.accept = 'image/jpeg,image/png,image/jpg,image/webp';
-    input.onchange = function(e) {
+    input.onchange = function (e) {
         let file = e.target.files[0];
         let formData = new FormData();
         formData.append('teacher_id', id);
         formData.append('photo', file);
-        
+
         if (confirm('Upload foto untuk guru ini?')) {
             fetch('index.php?route=admin/uploadFotoGuru', {
                 method: 'POST',
@@ -122,29 +122,28 @@ function uploadFotoGuru(id) {
     input.click();
 }
 
-window.onclick = function(event) {
+window.onclick = function (event) {
     if (event.target.classList.contains('modal')) {
         event.target.style.display = 'none';
     }
 }
 
-window.onload = function() {
+window.onload = function () {
     const urlParams = new URLSearchParams(window.location.search);
     const msg = urlParams.get('msg');
     const error = urlParams.get('error');
-    
+
     if (msg === 'photo_uploaded') {
         alert('Foto berhasil diupload!');
         window.history.replaceState({}, document.title, window.location.pathname + '?tab=' + urlParams.get('tab'));
     }
-    
+
     if (error) {
         alert('Error: ' + decodeURIComponent(error));
         window.history.replaceState({}, document.title, window.location.pathname + '?tab=' + urlParams.get('tab'));
     }
 }
 
-// --- NFC PAIRING LOGIC ---
 let nfcSocket = null;
 
 function bukaModalPairing() {
@@ -154,29 +153,24 @@ function bukaModalPairing() {
     document.getElementById('pairingResult').style.display = 'none';
 
     if (!nfcSocket) {
-        // Menginisialisasi socket client
         nfcSocket = io("https://sp24api.wind.my.id");
 
         nfcSocket.on("connect", () => {
             console.log("Terhubung ke Server dengan ID:", nfcSocket.id);
-            // LANGKAH 1: Meminta kode pairing ke server
             nfcSocket.emit("request-pairing-code");
         });
 
-        // LANGKAH 2: Menerima kode pairing yang dihasilkan server
         nfcSocket.on("pairing-code-generated", (code) => {
             document.getElementById('pairingCodeDisplay').innerText = code;
             document.getElementById('pairingStatus').innerHTML = '<i class="fas fa-check-circle"></i> Menunggu scan NFC dari Android...';
         });
 
-        // LANGKAH 3: Menerima data NFC yang diteruskan oleh server
         nfcSocket.on("nfc-received", (data) => {
             console.log("DATA NFC DITERIMA!", data);
             let resultDiv = document.getElementById('pairingResult');
             resultDiv.style.display = 'block';
             resultDiv.innerHTML = '<strong>Data NFC Diterima!</strong><br>Tag ID: <code>' + data.tagId + '</code><br>Waktu: ' + new Date(data.timestamp).toLocaleTimeString();
-            
-            // Catat presensi otomatis jika Tag ID sesuai dengan data siswa
+
             catatPresensiDariNFC(data.tagId);
         });
 
@@ -205,14 +199,12 @@ function tutupModalPairing() {
 }
 
 function catatPresensiDariNFC(tagId) {
-    // Fungsi ini bisa dikembangkan untuk langsung mengirim POST request ke server Anda
-    // Misalnya menggunakan fetch API untuk absen otomatis
+
     document.getElementById('pairingStatus').innerHTML = '<i class="fas fa-check"></i> Proses pencatatan presensi...';
-    
-    // Asumsi ada API endpoint untuk catat presensi via NFC di backend SP24
+
     let formData = new FormData();
     formData.append('tag_id', tagId);
-    
+
     /* 
     fetch('index.php?route=admin/catatPresensiNFC', {
         method: 'POST',

@@ -88,7 +88,10 @@
             <div class="card">
                 <div class="card-header">
                     <h3><i class="fas fa-users"></i> Manajemen Data Siswa</h3>
-                    <button class="btn-add" onclick="showTambahSiswa()"><i class="fas fa-plus"></i> Tambah Siswa</button>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn-add" style="background:#059669;" onclick="bukaModalPairing()"><i class="fas fa-mobile-alt"></i> Pairing Scanner</button>
+                        <button class="btn-add" onclick="showTambahSiswa()"><i class="fas fa-plus"></i> Tambah Siswa</button>
+                    </div>
                 </div>
                 <div class="table-responsive">
                     <table class="data-table">
@@ -190,9 +193,6 @@
                         </button>
                         <button onclick="resetFilter()" class="btn-sm-primary" style="background:#64748b;">
                             <i class="fas fa-undo-alt"></i> Reset
-                        </button>
-                        <button onclick="bukaModalPairing()" class="btn-sm-primary" style="background:#059669; margin-left: auto;">
-                            <i class="fas fa-mobile-alt"></i> Pairing Scanner
                         </button>
                     </div>
                 </div>
