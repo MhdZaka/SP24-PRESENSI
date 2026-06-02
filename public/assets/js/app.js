@@ -177,11 +177,13 @@ function initNfcSocket() {
         nfcSocket.on("device-connected", (data) => {
             console.log("Device Connected!", data);
             
-            // 1. Ubah button Pairing Scanner menjadi Perangkat Terhubung
+            // 1. Ubah button Pairing Scanner menjadi Perangkat Terhubung & Lock button
             const btnPairing = document.getElementById('btnPairingScanner');
             if (btnPairing) {
                 btnPairing.innerHTML = '<i class="fas fa-check-circle"></i> Perangkat Terhubung';
                 btnPairing.style.background = '#0284c7'; // Warna biru
+                btnPairing.style.pointerEvents = 'none'; // Kunci tombol agar tidak bisa di klik
+                btnPairing.style.opacity = '0.9';
             }
             
             // 2. Beritahu user & tutup modal
@@ -190,6 +192,13 @@ function initNfcSocket() {
             
             alert('Perangkat Android berhasil terhubung!');
             tutupModalPairing();
+        });
+
+        // 3. Listener jika Android terputus (Membutuhkan event dari server)
+        nfcSocket.on("device-disconnected", () => {
+            console.log("Device Disconnected!");
+            kembalikanTombolPairing();
+            alert('Koneksi dengan Perangkat Android terputus.');
         });
 
         nfcSocket.on("nfc-received", (data) => {
@@ -223,12 +232,25 @@ function initNfcSocket() {
         nfcSocket.on("disconnect", () => {
             let status = document.getElementById('pairingStatus');
             if (status) status.innerHTML = '<i class="fas fa-exclamation-triangle" style="color:#ef4444;"></i> Terputus dari server.';
+            kembalikanTombolPairing();
         });
 
         nfcSocket.on("connect_error", (err) => {
             let status = document.getElementById('pairingStatus');
             if (status) status.innerHTML = '<i class="fas fa-exclamation-triangle" style="color:#ef4444;"></i> Gagal terhubung ke server.';
+            kembalikanTombolPairing();
         });
+    }
+}
+
+// Fungsi untuk mereset tampilan tombol ke semula
+function kembalikanTombolPairing() {
+    const btnPairing = document.getElementById('btnPairingScanner');
+    if (btnPairing) {
+        btnPairing.innerHTML = '<i class="fas fa-mobile-alt"></i> Pairing Scanner';
+        btnPairing.style.background = '#059669'; // Hijau normal
+        btnPairing.style.pointerEvents = 'auto'; // Buka kunci tombol
+        btnPairing.style.opacity = '1';
     }
 }
 
