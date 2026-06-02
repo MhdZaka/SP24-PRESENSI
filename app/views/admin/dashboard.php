@@ -27,6 +27,18 @@
         .date-cell { font-weight: 500; color: #09637E; }
         .empty-data { text-align: center; padding: 2rem; color: #94a3b8; }
         .empty-data i { font-size: 2rem; margin-bottom: 0.5rem; }
+        
+        /* Toast Notification */
+        .toast-notification { position: fixed; top: 20px; right: 20px; background: #22c55e; color: white; padding: 15px 25px; border-radius: 50px; font-weight: 600; display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 25px rgba(34, 197, 94, 0.4); transform: translateX(150%); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 9999; }
+        .toast-notification.show { transform: translateX(0); }
+        
+        /* Pulse Animation */
+        @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(2, 132, 199, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(2, 132, 199, 0); } 100% { box-shadow: 0 0 0 0 rgba(2, 132, 199, 0); } }
+        .btn-pulsing { animation: pulse-ring 2s infinite; border: 2px solid #38bdf8 !important; }
+        
+        /* Blinking Text */
+        @keyframes blink-animation { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+        .text-blink { animation: blink-animation 1.5s infinite; color: #10b981; font-size: 0.8rem; font-weight: 600; margin-left: 8px; display: inline-flex; align-items: center; gap: 4px; }
     </style>
 </head>
 <body>
@@ -318,5 +330,10 @@
 <?php include 'includes/modals.php'; ?>
 <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
 <script src="<?= APP_URL ?>/public/assets/js/app.js?v=<?= time() ?>"></script>
+
+<div id="toastNotification" class="toast-notification">
+    <i class="fas fa-check-circle"></i> Perangkat Berhasil Terhubung!
+</div>
+
 </body>
 </html>

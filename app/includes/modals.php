@@ -34,7 +34,7 @@
                         <input type="text" name="parent" id="parent" class="form-control">
                     </div>
                     <div class="form-col">
-                        <label>Tag ID</label>
+                        <label>Tag ID <span id="nfcStatusText" class="text-blink" style="display:none;"><i class="fas fa-wifi"></i> Pemindaian aktif...</span></label>
                         <input type="text" name="tag_id" id="tag_id" class="form-control">
                     </div>
                 </div>

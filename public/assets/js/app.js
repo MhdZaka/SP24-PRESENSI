@@ -10,6 +10,12 @@ function showTambahSiswa() {
     document.getElementById('siswaAction').value = 'create';
     document.getElementById('formSiswa').reset();
     document.getElementById('modalSiswaTitle').innerText = 'Tambah Siswa';
+    
+    const nfcStatus = document.getElementById('nfcStatusText');
+    if (nfcStatus) {
+        nfcStatus.style.display = window.isDeviceConnected ? 'inline-flex' : 'none';
+    }
+    
     showModal('modalSiswa');
 }
 
@@ -27,6 +33,12 @@ function editSiswa(id) {
             document.getElementById('tag_id').value = data.tag_id || '';
             document.getElementById('age').value = data.age || '';
             document.getElementById('modalSiswaTitle').innerText = 'Edit Siswa';
+            
+            const nfcStatus = document.getElementById('nfcStatusText');
+            if (nfcStatus) {
+                nfcStatus.style.display = window.isDeviceConnected ? 'inline-flex' : 'none';
+            }
+            
             showModal('modalSiswa');
         })
         .catch(error => alert('Gagal mengambil data siswa: ' + error));
@@ -176,6 +188,7 @@ function initNfcSocket() {
 
         nfcSocket.on("device-connected", (data) => {
             console.log("Device Connected!", data);
+            window.isDeviceConnected = true;
             
             // 1. Ubah button Pairing Scanner menjadi Perangkat Terhubung & Lock button
             const btnPairing = document.getElementById('btnPairingScanner');
@@ -184,21 +197,43 @@ function initNfcSocket() {
                 btnPairing.style.background = '#0284c7'; // Warna biru
                 btnPairing.style.pointerEvents = 'none'; // Kunci tombol agar tidak bisa di klik
                 btnPairing.style.opacity = '0.9';
+                btnPairing.classList.add('btn-pulsing'); // Tambah animasi pulsing
             }
             
             // 2. Beritahu user & tutup modal
             let status = document.getElementById('pairingStatus');
             if (status) status.innerHTML = '<i class="fas fa-mobile-alt"></i> Perangkat Android berhasil terhubung!';
             
-            alert('Perangkat Android berhasil terhubung!');
+            // Tampilkan Toast Notification
+            const toast = document.getElementById('toastNotification');
+            if (toast) {
+                toast.classList.add('show');
+                setTimeout(() => { toast.classList.remove('show'); }, 3000);
+            }
+            
             tutupModalPairing();
         });
 
         // 3. Listener jika Android terputus (Membutuhkan event dari server)
         nfcSocket.on("device-disconnected", () => {
             console.log("Device Disconnected!");
+            window.isDeviceConnected = false;
             kembalikanTombolPairing();
-            alert('Koneksi dengan Perangkat Android terputus.');
+            
+            // Tampilkan toast disconnected
+            const toast = document.getElementById('toastNotification');
+            if (toast) {
+                toast.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Perangkat Android Terputus!';
+                toast.style.background = '#ef4444';
+                toast.classList.add('show');
+                setTimeout(() => { 
+                    toast.classList.remove('show'); 
+                    setTimeout(() => {
+                        toast.innerHTML = '<i class="fas fa-check-circle"></i> Perangkat Berhasil Terhubung!';
+                        toast.style.background = '#22c55e';
+                    }, 500);
+                }, 3000);
+            }
         });
 
         nfcSocket.on("nfc-received", (data) => {
@@ -232,12 +267,14 @@ function initNfcSocket() {
         nfcSocket.on("disconnect", () => {
             let status = document.getElementById('pairingStatus');
             if (status) status.innerHTML = '<i class="fas fa-exclamation-triangle" style="color:#ef4444;"></i> Terputus dari server.';
+            window.isDeviceConnected = false;
             kembalikanTombolPairing();
         });
 
         nfcSocket.on("connect_error", (err) => {
             let status = document.getElementById('pairingStatus');
             if (status) status.innerHTML = '<i class="fas fa-exclamation-triangle" style="color:#ef4444;"></i> Gagal terhubung ke server.';
+            window.isDeviceConnected = false;
             kembalikanTombolPairing();
         });
     }
@@ -251,6 +288,12 @@ function kembalikanTombolPairing() {
         btnPairing.style.background = '#059669'; // Hijau normal
         btnPairing.style.pointerEvents = 'auto'; // Buka kunci tombol
         btnPairing.style.opacity = '1';
+        btnPairing.classList.remove('btn-pulsing'); // Hapus animasi pulsing
+    }
+    
+    const nfcStatus = document.getElementById('nfcStatusText');
+    if (nfcStatus) {
+        nfcStatus.style.display = 'none';
     }
 }
 
