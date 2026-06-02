@@ -212,21 +212,18 @@ function initNfcSocket() {
             console.log("Device Connected!", data);
             window.isDeviceConnected = true;
             
-            // 1. Ubah button Pairing Scanner menjadi Perangkat Terhubung & Lock button
             const btnPairing = document.getElementById('btnPairingScanner');
             if (btnPairing) {
                 btnPairing.innerHTML = '<i class="fas fa-check-circle"></i> Perangkat Terhubung';
-                btnPairing.style.background = '#0284c7'; // Warna biru
-                btnPairing.style.pointerEvents = 'none'; // Kunci tombol agar tidak bisa di klik
+                btnPairing.style.background = '#0284c7';
+                btnPairing.style.pointerEvents = 'none';
                 btnPairing.style.opacity = '0.9';
-                btnPairing.classList.add('btn-pulsing'); // Tambah animasi pulsing
+                btnPairing.classList.add('btn-pulsing');
             }
             
-            // 2. Beritahu user & tutup modal
             let status = document.getElementById('pairingStatus');
             if (status) status.innerHTML = '<i class="fas fa-mobile-alt"></i> Perangkat Android berhasil terhubung!';
             
-            // Tampilkan Toast Notification
             const toast = document.getElementById('toastNotification');
             if (toast) {
                 toast.classList.add('show');
@@ -236,13 +233,11 @@ function initNfcSocket() {
             tutupModalPairing();
         });
 
-        // 3. Listener jika Android terputus (Membutuhkan event dari server)
         nfcSocket.on("device-disconnected", () => {
             console.log("Device Disconnected!");
             window.isDeviceConnected = false;
             kembalikanTombolPairing();
             
-            // Tampilkan toast disconnected
             const toast = document.getElementById('toastNotification');
             if (toast) {
                 toast.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Perangkat Android Terputus!';
@@ -261,22 +256,18 @@ function initNfcSocket() {
         nfcSocket.on("nfc-received", (data) => {
             console.log("DATA NFC DITERIMA!", data);
             
-            // Cek apakah modal Form Siswa sedang terbuka
             const modalSiswa = document.getElementById('modalSiswa');
             const isModalSiswaOpen = modalSiswa && (modalSiswa.style.display === 'block' || window.getComputedStyle(modalSiswa).display === 'block');
             
             if (isModalSiswaOpen) {
-                // Jika sedang di form siswa, otomatis isi input Tag ID
                 const tagIdInput = document.getElementById('tag_id');
                 if (tagIdInput) {
                     tagIdInput.value = data.tagId;
-                    // Beri efek visual hijau sejenak agar user sadar
                     const originalBg = tagIdInput.style.backgroundColor;
                     tagIdInput.style.backgroundColor = '#d1fae5';
                     setTimeout(() => { tagIdInput.style.backgroundColor = originalBg; }, 1500);
                 }
             } else {
-                // Jika modal siswa tidak terbuka, tampilkan di modal pairing atau proses absensi
                 let resultDiv = document.getElementById('pairingResult');
                 if (resultDiv) {
                     resultDiv.style.display = 'block';
@@ -302,15 +293,14 @@ function initNfcSocket() {
     }
 }
 
-// Fungsi untuk mereset tampilan tombol ke semula
 function kembalikanTombolPairing() {
     const btnPairing = document.getElementById('btnPairingScanner');
     if (btnPairing) {
         btnPairing.innerHTML = '<i class="fas fa-mobile-alt"></i> Pairing Scanner';
-        btnPairing.style.background = '#059669'; // Hijau normal
-        btnPairing.style.pointerEvents = 'auto'; // Buka kunci tombol
+        btnPairing.style.background = '#059669';
+        btnPairing.style.pointerEvents = 'auto';
         btnPairing.style.opacity = '1';
-        btnPairing.classList.remove('btn-pulsing'); // Hapus animasi pulsing
+        btnPairing.classList.remove('btn-pulsing');
     }
     
     const nfcStatus = document.getElementById('nfcStatusText');
@@ -331,7 +321,6 @@ function bukaModalPairing() {
     if (nfcSocket.connected) {
         nfcSocket.emit("request-pairing-code");
     } else {
-        // Jika belum terhubung (baru inisialisasi), tunggu event connect
         nfcSocket.once("connect", () => {
             nfcSocket.emit("request-pairing-code");
         });
@@ -340,7 +329,6 @@ function bukaModalPairing() {
 
 function tutupModalPairing() {
     closeModal('modalPairing');
-    // Koneksi TETAP DIPERTAHANKAN agar web bisa menerima scan NFC saat mengisi form siswa
 }
 
 function catatPresensiDariNFC(tagId) {
@@ -350,17 +338,6 @@ function catatPresensiDariNFC(tagId) {
 
     let formData = new FormData();
     formData.append('tag_id', tagId);
-
-    /* 
-    fetch('index.php?route=admin/catatPresensiNFC', {
-        method: 'POST',
-        body: formData
-    }).then(res => {
-        // refresh data jika berhasil
-        location.reload();
-    });
-    */
 }
 
-// Inisialisasi koneksi socket background saat halaman dimuat
 document.addEventListener('DOMContentLoaded', initNfcSocket);

@@ -30,7 +30,6 @@ class ApiModel {
         }
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         
-        // Kirim cookies yang tersimpan (misal refresh token)
         if (isset($_SESSION['api_cookies'])) {
             $cookieStr = [];
             foreach ($_SESSION['api_cookies'] as $k => $v) {
@@ -39,7 +38,6 @@ class ApiModel {
             curl_setopt($ch, CURLOPT_COOKIE, implode('; ', $cookieStr));
         }
 
-        // Tangkap header Set-Cookie dari response API
         curl_setopt($ch, CURLOPT_HEADERFUNCTION, function($curl, $header) {
             if (stripos($header, 'Set-Cookie:') === 0) {
                 if (preg_match('/^Set-Cookie:\s*([^;]+)/', $header, $matches)) {
@@ -81,23 +79,17 @@ class ApiModel {
             ]);
         }
         
-        // Handle 401 Unauthorized via Refresh Token
         if ($useAuth && $httpCode == 401 && !$isRetry && isset($_SESSION['api_cookies']['refreshToken'])) {
-            // Lakukan percobaan refresh token ke API
             $refreshResult = self::request('/auth/refresh-token', 'POST', null, false, true);
             if ($refreshResult['status'] == 200 && isset($refreshResult['data']['data']['accessToken'])) {
-                // Berhasil refresh, simpan token baru
                 $_SESSION['access_token'] = $refreshResult['data']['data']['accessToken'];
-                // Ulangi request asli dengan token baru
                 return self::request($endpoint, $method, $data, $useAuth, true);
             }
         }
 
-        // Jika masih 401, kick user ke login
         if ($useAuth && $httpCode == 401) {
             session_destroy();
             
-            // Cek apakah request dari fetch / AJAX (hindari redirect HTML di JSON)
             $isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
             $isFetch = isset($_SERVER['HTTP_SEC_FETCH_DEST']) && $_SERVER['HTTP_SEC_FETCH_DEST'] === 'empty';
             
