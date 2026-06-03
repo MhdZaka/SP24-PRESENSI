@@ -615,4 +615,65 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+    // SPA Mode untuk seluruh link internal agar WebSocket tidak terputus
+    document.addEventListener('click', function(e) {
+        const link = e.target.closest('a');
+        if (!link) return;
+        
+        const url = link.getAttribute('href');
+        if (!url || (!url.startsWith('?') && !url.includes('route=admin/dashboard'))) return;
+        
+        // Jangan intercept tombol logout
+        if (url.includes('logout')) return;
+
+        e.preventDefault();
+        
+        // Ubah class active di sidebar jika itu link sidebar
+        if (link.classList.contains('nav-item')) {
+            document.querySelectorAll('.sidebar-nav .nav-item').forEach(el => el.classList.remove('active'));
+            link.classList.add('active');
+        }
+        
+        // Tampilkan indikator loading
+        const mainContent = document.querySelector('.main-content');
+        if (!mainContent) return;
+        
+        const originalHTML = mainContent.innerHTML;
+        mainContent.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:50vh;font-size:1.5rem;color:#09637E;"><i class="fas fa-spinner fa-spin"></i> &nbsp;Memuat...</div>';
+        
+        fetch(url, { credentials: 'same-origin' })
+            .then(res => res.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newMain = doc.querySelector('.main-content');
+                
+                if (newMain) {
+                    mainContent.innerHTML = newMain.innerHTML;
+                    window.history.pushState({}, '', url);
+                    
+                    // Eksekusi ulang script
+                    const scripts = newMain.querySelectorAll('script');
+                    scripts.forEach(script => {
+                        const newScript = document.createElement('script');
+                        newScript.textContent = script.textContent;
+                        document.body.appendChild(newScript);
+                        document.body.removeChild(newScript);
+                    });
+                } else {
+                    mainContent.innerHTML = originalHTML; // Kembalikan jika error
+                    alert('Gagal memuat halaman.');
+                }
+            })
+            .catch(err => {
+                mainContent.innerHTML = originalHTML;
+                alert('Kesalahan jaringan: ' + err.message);
+            });
+    });
+
+    // Handle tombol back/forward di browser
+    window.addEventListener('popstate', () => {
+        window.location.reload();
+    });
 });
