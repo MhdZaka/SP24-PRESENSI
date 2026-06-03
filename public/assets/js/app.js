@@ -56,7 +56,27 @@ function editSiswa(id) {
 
 function hapusSiswa(id) {
     if (confirm('Yakin ingin menghapus siswa ini?')) {
-        window.location.href = 'index.php?route=admin/prosesSiswa&action=delete&id=' + id;
+        fetch('index.php?route=admin/prosesSiswa&action=delete&id=' + id)
+        .then(res => res.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const newTable = doc.querySelector('.data-table');
+            const oldTable = document.querySelector('.data-table');
+            if (newTable && oldTable) {
+                oldTable.innerHTML = newTable.innerHTML;
+                const toast = document.getElementById('toastNotification');
+                if (toast) {
+                    toast.innerHTML = '<i class="fas fa-trash"></i> Data Siswa dihapus!';
+                    toast.style.background = '#ef4444';
+                    toast.classList.add('show');
+                    setTimeout(() => { toast.classList.remove('show'); }, 3000);
+                }
+            } else {
+                location.reload();
+            }
+        })
+        .catch(() => location.reload());
     }
 }
 
@@ -110,7 +130,27 @@ function editGuru(id) {
 
 function hapusGuru(id) {
     if (confirm('Yakin ingin menghapus guru ini?')) {
-        window.location.href = 'index.php?route=admin/prosesGuru&action=delete&id=' + id;
+        fetch('index.php?route=admin/prosesGuru&action=delete&id=' + id)
+        .then(res => res.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const newTable = doc.querySelector('.guru-grid-container');
+            const oldTable = document.querySelector('.guru-grid-container');
+            if (newTable && oldTable) {
+                oldTable.innerHTML = newTable.innerHTML;
+                const toast = document.getElementById('toastNotification');
+                if (toast) {
+                    toast.innerHTML = '<i class="fas fa-trash"></i> Data Guru dihapus!';
+                    toast.style.background = '#ef4444';
+                    toast.classList.add('show');
+                    setTimeout(() => { toast.classList.remove('show'); }, 3000);
+                }
+            } else {
+                location.reload();
+            }
+        })
+        .catch(() => location.reload());
     }
 }
 
@@ -128,14 +168,27 @@ function uploadFotoSiswa(id) {
             fetch('index.php?route=admin/uploadFotoSiswa', {
                 method: 'POST',
                 body: formData
-            }).then(response => {
-                if (response.ok) {
-                    alert('Foto berhasil diupload!');
-                    location.reload();
+            })
+            .then(res => res.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newTable = doc.querySelector('.data-table');
+                const oldTable = document.querySelector('.data-table');
+                if (newTable && oldTable) {
+                    oldTable.innerHTML = newTable.innerHTML;
+                    const toast = document.getElementById('toastNotification');
+                    if (toast) {
+                        toast.innerHTML = '<i class="fas fa-image"></i> Foto Siswa berhasil diupload!';
+                        toast.style.background = '#22c55e';
+                        toast.classList.add('show');
+                        setTimeout(() => { toast.classList.remove('show'); }, 3000);
+                    }
                 } else {
-                    alert('Gagal upload foto');
+                    location.reload();
                 }
-            });
+            })
+            .catch(() => alert('Gagal upload foto'));
         }
     };
     input.click();
@@ -155,14 +208,27 @@ function uploadFotoGuru(id) {
             fetch('index.php?route=admin/uploadFotoGuru', {
                 method: 'POST',
                 body: formData
-            }).then(response => {
-                if (response.ok) {
-                    alert('Foto berhasil diupload!');
-                    location.reload();
+            })
+            .then(res => res.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newTable = doc.querySelector('.guru-grid-container');
+                const oldTable = document.querySelector('.guru-grid-container');
+                if (newTable && oldTable) {
+                    oldTable.innerHTML = newTable.innerHTML;
+                    const toast = document.getElementById('toastNotification');
+                    if (toast) {
+                        toast.innerHTML = '<i class="fas fa-image"></i> Foto Guru berhasil diupload!';
+                        toast.style.background = '#22c55e';
+                        toast.classList.add('show');
+                        setTimeout(() => { toast.classList.remove('show'); }, 3000);
+                    }
                 } else {
-                    alert('Gagal upload foto');
+                    location.reload();
                 }
-            });
+            })
+            .catch(() => alert('Gagal upload foto'));
         }
     };
     input.click();
@@ -373,7 +439,6 @@ function putuskanKoneksiNfc() {
 document.addEventListener('DOMContentLoaded', () => {
     initNfcSocket();
     
-    // Pulihkan status permanen saat refresh
     if (localStorage.getItem('nfc_paired') === 'true') {
         window.isDeviceConnected = true;
         const btnPairing = document.getElementById('btnPairingScanner');
@@ -383,5 +448,103 @@ document.addEventListener('DOMContentLoaded', () => {
             btnPairing.style.opacity = '0.9';
             btnPairing.classList.add('btn-pulsing');
         }
+    }
+    
+    // AJAX submit untuk Form Siswa agar halaman tidak reload (mempertahankan koneksi Socket)
+    const formSiswa = document.getElementById('formSiswa');
+    if (formSiswa) {
+        formSiswa.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerText;
+            submitBtn.innerText = 'Menyimpan...';
+            submitBtn.disabled = true;
+            
+            const formData = new FormData(this);
+            fetch(this.action, {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newTable = doc.querySelector('.data-table');
+                const oldTable = document.querySelector('.data-table');
+                
+                if (newTable && oldTable) {
+                    oldTable.innerHTML = newTable.innerHTML;
+                    closeModal('modalSiswa');
+                    formSiswa.reset();
+                    
+                    const toast = document.getElementById('toastNotification');
+                    if (toast) {
+                        toast.innerHTML = '<i class="fas fa-check-circle"></i> Data Siswa berhasil disimpan!';
+                        toast.style.background = '#22c55e';
+                        toast.classList.add('show');
+                        setTimeout(() => { toast.classList.remove('show'); }, 3000);
+                    }
+                } else {
+                    location.reload();
+                }
+            })
+            .catch(err => {
+                console.error("Error submitting form:", err);
+                location.reload();
+            })
+            .finally(() => {
+                submitBtn.innerText = originalText;
+                submitBtn.disabled = false;
+            });
+        });
+    }
+
+    // AJAX submit untuk Form Guru
+    const formGuru = document.getElementById('formGuru');
+    if (formGuru) {
+        formGuru.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerText;
+            submitBtn.innerText = 'Menyimpan...';
+            submitBtn.disabled = true;
+            
+            const formData = new FormData(this);
+            fetch(this.action, {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newTable = doc.querySelector('.guru-grid-container');
+                const oldTable = document.querySelector('.guru-grid-container');
+                
+                if (newTable && oldTable) {
+                    oldTable.innerHTML = newTable.innerHTML;
+                    closeModal('modalGuru');
+                    formGuru.reset();
+                    
+                    const toast = document.getElementById('toastNotification');
+                    if (toast) {
+                        toast.innerHTML = '<i class="fas fa-check-circle"></i> Data Guru berhasil disimpan!';
+                        toast.style.background = '#22c55e';
+                        toast.classList.add('show');
+                        setTimeout(() => { toast.classList.remove('show'); }, 3000);
+                    }
+                } else {
+                    location.reload();
+                }
+            })
+            .catch(err => {
+                console.error("Error submitting form:", err);
+                location.reload();
+            })
+            .finally(() => {
+                submitBtn.innerText = originalText;
+                submitBtn.disabled = false;
+            });
+        });
     }
 });
