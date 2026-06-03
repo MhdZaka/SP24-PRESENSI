@@ -129,3 +129,21 @@
         </div>
     </div>
 </div>
+
+<div id="modalDisconnectNFC" class="modal">
+    <div class="modal-content" style="text-align: center; max-width: 350px;">
+        <div class="modal-header" style="justify-content: center; border-bottom: none;">
+            <h3 style="color: #ef4444;"><i class="fas fa-exclamation-triangle"></i> Putuskan Koneksi</h3>
+            <span class="modal-close" onclick="closeModal('modalDisconnectNFC')" style="position: absolute; right: 20px;">&times;</span>
+        </div>
+        <div class="modal-body">
+            <p style="margin-bottom: 20px; color: #475569; font-size: 0.95rem;">
+                Perangkat Android saat ini terhubung sebagai Scanner NFC. Anda yakin ingin memutuskan koneksi ini?
+            </p>
+        </div>
+        <div class="modal-footer" style="justify-content: center; gap: 15px; border-top: none;">
+            <button type="button" class="btn-cancel" onclick="closeModal('modalDisconnectNFC')">Batal</button>
+            <button type="button" class="btn-delete" onclick="putuskanKoneksiNfc()"><i class="fas fa-unlink"></i> Putuskan</button>
+        </div>
+    </div>
+</div>

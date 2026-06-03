@@ -211,12 +211,12 @@ function initNfcSocket() {
         nfcSocket.on("device-connected", (data) => {
             console.log("Device Connected!", data);
             window.isDeviceConnected = true;
+            localStorage.setItem('nfc_paired', 'true'); // Simpan permanen
             
             const btnPairing = document.getElementById('btnPairingScanner');
             if (btnPairing) {
                 btnPairing.innerHTML = '<i class="fas fa-check-circle"></i> Perangkat Terhubung';
                 btnPairing.style.background = '#0284c7';
-                btnPairing.style.pointerEvents = 'none';
                 btnPairing.style.opacity = '0.9';
                 btnPairing.classList.add('btn-pulsing');
             }
@@ -298,7 +298,6 @@ function kembalikanTombolPairing() {
     if (btnPairing) {
         btnPairing.innerHTML = '<i class="fas fa-mobile-alt"></i> Pairing Scanner';
         btnPairing.style.background = '#059669';
-        btnPairing.style.pointerEvents = 'auto';
         btnPairing.style.opacity = '1';
         btnPairing.classList.remove('btn-pulsing');
     }
@@ -340,4 +339,49 @@ function catatPresensiDariNFC(tagId) {
     formData.append('tag_id', tagId);
 }
 
-document.addEventListener('DOMContentLoaded', initNfcSocket);
+function handlePairingClick() {
+    if (localStorage.getItem('nfc_paired') === 'true') {
+        showModal('modalDisconnectNFC');
+    } else {
+        bukaModalPairing();
+    }
+}
+
+function putuskanKoneksiNfc() {
+    localStorage.removeItem('nfc_paired');
+    window.isDeviceConnected = false;
+    kembalikanTombolPairing();
+    closeModal('modalDisconnectNFC');
+    
+    // Putuskan websocket sementara agar server API tau bahwa kita disconnect
+    if (nfcSocket) {
+        nfcSocket.disconnect();
+        setTimeout(() => {
+            initNfcSocket(); // Konek kembali untuk standby session baru
+        }, 500);
+    }
+    
+    const toast = document.getElementById('toastNotification');
+    if (toast) {
+        toast.innerHTML = '<i class="fas fa-unlink"></i> Koneksi NFC Diputuskan!';
+        toast.style.background = '#64748b';
+        toast.classList.add('show');
+        setTimeout(() => { toast.classList.remove('show'); }, 3000);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initNfcSocket();
+    
+    // Pulihkan status permanen saat refresh
+    if (localStorage.getItem('nfc_paired') === 'true') {
+        window.isDeviceConnected = true;
+        const btnPairing = document.getElementById('btnPairingScanner');
+        if (btnPairing) {
+            btnPairing.innerHTML = '<i class="fas fa-check-circle"></i> Perangkat Terhubung';
+            btnPairing.style.background = '#0284c7';
+            btnPairing.style.opacity = '0.9';
+            btnPairing.classList.add('btn-pulsing');
+        }
+    }
+});

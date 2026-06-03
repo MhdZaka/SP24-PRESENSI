@@ -101,7 +101,7 @@
                 <div class="card-header">
                     <h3><i class="fas fa-users"></i> Manajemen Data Siswa</h3>
                     <div style="display: flex; gap: 10px;">
-                        <button id="btnPairingScanner" class="btn-add" style="background:#059669;" onclick="bukaModalPairing()"><i class="fas fa-mobile-alt"></i> Pairing Scanner</button>
+                        <button id="btnPairingScanner" class="btn-add" style="background:#059669;" onclick="handlePairingClick()"><i class="fas fa-mobile-alt"></i> Pairing Scanner</button>
                         <button class="btn-add" onclick="showTambahSiswa()"><i class="fas fa-plus"></i> Tambah Siswa</button>
                     </div>
                 </div>
