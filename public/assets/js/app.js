@@ -279,12 +279,14 @@ window.onload = function () {
 
     if (msg === 'photo_uploaded') {
         alert('Foto berhasil diupload!');
-        window.history.replaceState({}, document.title, window.location.pathname + '?tab=' + urlParams.get('tab'));
     }
 
     if (error) {
         alert('Error: ' + decodeURIComponent(error));
-        window.history.replaceState({}, document.title, window.location.pathname + '?tab=' + urlParams.get('tab'));
+    }
+    
+    if (window.location.search.length > 0) {
+        window.history.replaceState({}, document.title, window.location.pathname);
     }
 }
 
@@ -644,7 +646,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 if (newMain) {
                     mainContent.innerHTML = newMain.innerHTML;
-                    window.history.pushState({}, '', url);
+                    window.history.replaceState({}, '', window.location.pathname);
                     
                     applyNfcUIState();
                     
