@@ -73,10 +73,10 @@ function hapusSiswa(id) {
                     setTimeout(() => { toast.classList.remove('show'); }, 3000);
                 }
             } else {
-                location.reload();
+                alert('Gagal memuat ulang data tabel. Periksa koneksi Anda.');
             }
         })
-        .catch(() => location.reload());
+        .catch(err => alert("GAGAL menghapus data: " + err.message));
     }
 }
 
@@ -147,10 +147,10 @@ function hapusGuru(id) {
                     setTimeout(() => { toast.classList.remove('show'); }, 3000);
                 }
             } else {
-                location.reload();
+                alert('Gagal memuat ulang data tabel. Periksa koneksi Anda.');
             }
         })
-        .catch(() => location.reload());
+        .catch(err => alert("GAGAL menghapus data: " + err.message));
     }
 }
 
@@ -186,10 +186,10 @@ function uploadFotoSiswa(id) {
                         setTimeout(() => { toast.classList.remove('show'); }, 3000);
                     }
                 } else {
-                    location.reload();
+                    alert('Gagal memuat ulang data tabel. Periksa koneksi Anda.');
                 }
             })
-            .catch(() => alert('Gagal upload foto'));
+            .catch(err => alert('Gagal upload foto: ' + err.message));
         }
     };
     input.click();
@@ -227,10 +227,10 @@ function uploadFotoGuru(id) {
                         setTimeout(() => { toast.classList.remove('show'); }, 3000);
                     }
                 } else {
-                    location.reload();
+                    alert('Gagal memuat ulang data tabel. Periksa koneksi Anda.');
                 }
             })
-            .catch(() => alert('Gagal upload foto'));
+            .catch(err => alert('Gagal upload foto: ' + err.message));
         }
     };
     input.click();
@@ -467,7 +467,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: formData,
                 credentials: 'same-origin'
             })
-            .then(res => res.text())
+            .then(res => {
+                const url = new URL(res.url);
+                const errorMsg = url.searchParams.get('error');
+                if (errorMsg) {
+                    throw new Error(decodeURIComponent(errorMsg).replace(/\+/g, ' '));
+                }
+                return res.text();
+            })
             .then(html => {
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
@@ -487,12 +494,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         setTimeout(() => { toast.classList.remove('show'); }, 3000);
                     }
                 } else {
-                    location.reload();
+                    alert('Gagal memuat ulang data tabel. Periksa koneksi Anda.');
                 }
             })
             .catch(err => {
                 console.error("Error submitting form:", err);
-                location.reload();
+                alert("GAGAL: " + err.message);
             })
             .finally(() => {
                 submitBtn.innerText = originalText;
@@ -516,7 +523,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: formData,
                 credentials: 'same-origin'
             })
-            .then(res => res.text())
+            .then(res => {
+                const url = new URL(res.url);
+                const errorMsg = url.searchParams.get('error');
+                if (errorMsg) {
+                    throw new Error(decodeURIComponent(errorMsg).replace(/\+/g, ' '));
+                }
+                return res.text();
+            })
             .then(html => {
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
@@ -536,12 +550,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         setTimeout(() => { toast.classList.remove('show'); }, 3000);
                     }
                 } else {
-                    location.reload();
+                    alert('Gagal memuat ulang data tabel. Periksa koneksi Anda.');
                 }
             })
             .catch(err => {
                 console.error("Error submitting form:", err);
-                location.reload();
+                alert("GAGAL: " + err.message);
             })
             .finally(() => {
                 submitBtn.innerText = originalText;
