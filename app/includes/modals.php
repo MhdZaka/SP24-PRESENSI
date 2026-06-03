@@ -41,7 +41,7 @@
                 <div class="form-row">
                     <div class="form-col">
                         <label>Umur</label>
-                        <input type="number" name="age" id="age" class="form-control">
+                        <input type="number" name="age" id="age" class="form-control" required min="0">
                     </div>
                 </div>
             </div>
@@ -93,7 +93,7 @@
                     </div>
                     <div class="form-col">
                         <label>Umur</label>
-                        <input type="number" name="age" id="guru_age" class="form-control">
+                        <input type="number" name="age" id="guru_age" class="form-control" required min="0">
                     </div>
                 </div>
             </div>
