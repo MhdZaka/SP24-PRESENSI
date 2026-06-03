@@ -93,7 +93,6 @@ function showTambahGuru() {
     document.getElementById('formGuru').reset();
     document.getElementById('modalGuruTitle').innerText = 'Tambah Guru';
     
-    // Make password required for new users
     const pwdInput = document.getElementById('guru_password');
     pwdInput.required = true;
     pwdInput.placeholder = 'Wajib diisi (Password Baru)';
@@ -124,9 +123,8 @@ function editGuru(id) {
             document.getElementById('guru_age').value = data.age || '';
             document.getElementById('modalGuruTitle').innerText = 'Edit Guru';
             
-            // Logika UI Password
             const pwdInput = document.getElementById('guru_password');
-            if (pwdInput) {
+    if (pwdInput) {
                 pwdInput.removeAttribute('required');
                 pwdInput.setAttribute('placeholder', 'Kosongkan jika tidak diubah');
             }
@@ -311,7 +309,7 @@ function initNfcSocket() {
         nfcSocket.on("device-connected", (data) => {
             console.log("Device Connected!", data);
             window.isDeviceConnected = true;
-            localStorage.setItem('nfc_paired', 'true'); // Simpan permanen
+            localStorage.setItem('nfc_paired', 'true');
             
             const btnPairing = document.getElementById('btnPairingScanner');
             if (btnPairing) {
@@ -414,7 +412,6 @@ function bukaModalPairing() {
     document.getElementById('pairingStatus').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menghubungkan ke server...';
     document.getElementById('pairingResult').style.display = 'none';
 
-    // Pastikan socket sudah diinisialisasi
     initNfcSocket();
 
     if (nfcSocket.connected) {
@@ -453,11 +450,10 @@ function putuskanKoneksiNfc() {
     kembalikanTombolPairing();
     closeModal('modalDisconnectNFC');
     
-    // Putuskan websocket sementara agar server API tau bahwa kita disconnect
     if (nfcSocket) {
         nfcSocket.disconnect();
         setTimeout(() => {
-            initNfcSocket(); // Konek kembali untuk standby session baru
+            initNfcSocket();
         }, 500);
     }
     
@@ -504,7 +500,6 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(res => res.json())
             .then(data => {
                 if (data.status >= 200 && data.status < 300 && data.data && data.data.success !== false) {
-                    // Berhasil, ambil tabel baru
                     return fetch('index.php?route=admin/dashboard&tab=siswa', { credentials: 'same-origin' })
                         .then(res => res.text())
                         .then(html => {
@@ -570,7 +565,6 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(res => res.json())
             .then(data => {
                 if (data.status >= 200 && data.status < 300 && data.data && data.data.success !== false) {
-                    // Berhasil, ambil tabel baru
                     return fetch('index.php?route=admin/dashboard&tab=guru', { credentials: 'same-origin' })
                         .then(res => res.text())
                         .then(html => {
@@ -616,7 +610,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // SPA Mode untuk seluruh link internal agar WebSocket tidak terputus
     document.addEventListener('click', function(e) {
         const link = e.target.closest('a');
         if (!link) return;
@@ -624,18 +617,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const url = link.getAttribute('href');
         if (!url || (!url.startsWith('?') && !url.includes('route=admin/dashboard'))) return;
         
-        // Jangan intercept tombol logout
         if (url.includes('logout')) return;
 
         e.preventDefault();
         
-        // Ubah class active di sidebar jika itu link sidebar
         if (link.classList.contains('nav-item')) {
             document.querySelectorAll('.sidebar-nav .nav-item').forEach(el => el.classList.remove('active'));
             link.classList.add('active');
         }
         
-        // Tampilkan indikator loading
         const mainContent = document.querySelector('.main-content');
         if (!mainContent) return;
         
@@ -653,7 +643,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     mainContent.innerHTML = newMain.innerHTML;
                     window.history.pushState({}, '', url);
                     
-                    // Eksekusi ulang script
                     const scripts = newMain.querySelectorAll('script');
                     scripts.forEach(script => {
                         const newScript = document.createElement('script');
@@ -662,7 +651,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         document.body.removeChild(newScript);
                     });
                 } else {
-                    mainContent.innerHTML = originalHTML; // Kembalikan jika error
+                    mainContent.innerHTML = originalHTML;
                     alert('Gagal memuat halaman.');
                 }
             })
@@ -671,8 +660,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('Kesalahan jaringan: ' + err.message);
             });
     });
-
-    // Handle tombol back/forward di browser
     window.addEventListener('popstate', () => {
         window.location.reload();
     });
