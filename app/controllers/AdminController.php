@@ -38,7 +38,7 @@ class AdminController {
         if ($action == 'delete' && $_SERVER['REQUEST_METHOD'] == 'GET') {
             $id = $_GET['id'];
             $result = StudentModel::delete($id);
-            if (isset($_SERVER['HTTP_SEC_FETCH_DEST']) && $_SERVER['HTTP_SEC_FETCH_DEST'] === 'empty') {
+            if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
                 header('Content-Type: application/json');
                 echo json_encode(['status' => 200, 'data' => ['success' => true]]);
                 exit();
@@ -58,7 +58,7 @@ class AdminController {
                 'age' => (int)$_POST['age']
             ];
             $result = StudentModel::create($data);
-            if (isset($_SERVER['HTTP_SEC_FETCH_DEST']) && $_SERVER['HTTP_SEC_FETCH_DEST'] === 'empty') {
+            if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
                 header('Content-Type: application/json');
                 echo json_encode($result);
                 exit();
@@ -89,7 +89,7 @@ class AdminController {
                 'age' => (int)$_POST['age']
             ];
             $result = StudentModel::update($id, $data);
-            if (isset($_SERVER['HTTP_SEC_FETCH_DEST']) && $_SERVER['HTTP_SEC_FETCH_DEST'] === 'empty') {
+            if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
                 header('Content-Type: application/json');
                 echo json_encode($result);
                 exit();
@@ -127,7 +127,7 @@ class AdminController {
         if ($action == 'delete' && $_SERVER['REQUEST_METHOD'] == 'GET') {
             $id = $_GET['id'];
             $result = TeacherModel::delete($id);
-            if (isset($_SERVER['HTTP_SEC_FETCH_DEST']) && $_SERVER['HTTP_SEC_FETCH_DEST'] === 'empty') {
+            if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
                 header('Content-Type: application/json');
                 echo json_encode(['status' => 200, 'data' => ['success' => true]]);
                 exit();
@@ -146,7 +146,7 @@ class AdminController {
                 'gender' => $_POST['gender']
             ];
             $result = TeacherModel::create($data);
-            if (isset($_SERVER['HTTP_SEC_FETCH_DEST']) && $_SERVER['HTTP_SEC_FETCH_DEST'] === 'empty') {
+            if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
                 header('Content-Type: application/json');
                 echo json_encode($result);
                 exit();
@@ -178,7 +178,7 @@ class AdminController {
                 $data['password'] = $_POST['password'];
             }
             $result = TeacherModel::update($id, $data);
-            if (isset($_SERVER['HTTP_SEC_FETCH_DEST']) && $_SERVER['HTTP_SEC_FETCH_DEST'] === 'empty') {
+            if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
                 header('Content-Type: application/json');
                 echo json_encode($result);
                 exit();
@@ -225,8 +225,18 @@ class AdminController {
             $targetPath = $uploadDir . $filename;
             
             if (move_uploaded_file($file['tmp_name'], $targetPath)) {
+                if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
+                    header('Content-Type: application/json');
+                    echo json_encode(['status' => 200, 'data' => ['success' => true]]);
+                    exit();
+                }
                 header('Location: ' . APP_URL . '/app/index.php?route=admin/dashboard&tab=siswa&msg=photo_uploaded');
             } else {
+                if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
+                    header('Content-Type: application/json');
+                    echo json_encode(['status' => 400, 'data' => ['message' => 'Gagal upload foto']]);
+                    exit();
+                }
                 header('Location: ' . APP_URL . '/app/index.php?route=admin/dashboard&tab=siswa&error=Gagal upload foto');
             }
             exit();
@@ -251,8 +261,18 @@ class AdminController {
             $targetPath = $uploadDir . $filename;
             
             if (move_uploaded_file($file['tmp_name'], $targetPath)) {
+                if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
+                    header('Content-Type: application/json');
+                    echo json_encode(['status' => 200, 'data' => ['success' => true]]);
+                    exit();
+                }
                 header('Location: ' . APP_URL . '/app/index.php?route=admin/dashboard&tab=guru&msg=photo_uploaded');
             } else {
+                if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
+                    header('Content-Type: application/json');
+                    echo json_encode(['status' => 400, 'data' => ['message' => 'Gagal upload foto']]);
+                    exit();
+                }
                 header('Location: ' . APP_URL . '/app/index.php?route=admin/dashboard&tab=guru&error=Gagal upload foto');
             }
             exit();

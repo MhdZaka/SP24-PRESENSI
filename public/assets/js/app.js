@@ -56,7 +56,7 @@ function editSiswa(id) {
 
 function hapusSiswa(id) {
     if (confirm('Yakin ingin menghapus siswa ini?')) {
-        fetch('index.php?route=admin/prosesSiswa&action=delete&id=' + id, { credentials: 'same-origin' })
+        fetch('index.php?route=admin/prosesSiswa&action=delete&id=' + id + '&ajax=1', { credentials: 'same-origin' })
         .then(res => res.json())
         .then(data => {
             if (data.status >= 200 && data.status < 300) {
@@ -138,7 +138,7 @@ function editGuru(id) {
 
 function hapusGuru(id) {
     if (confirm('Yakin ingin menghapus guru ini?')) {
-        fetch('index.php?route=admin/prosesGuru&action=delete&id=' + id, { credentials: 'same-origin' })
+        fetch('index.php?route=admin/prosesGuru&action=delete&id=' + id + '&ajax=1', { credentials: 'same-origin' })
         .then(res => res.json())
         .then(data => {
             if (data.status >= 200 && data.status < 300) {
@@ -181,7 +181,7 @@ function uploadFotoSiswa(id) {
         formData.append('photo', file);
 
         if (confirm('Upload foto untuk siswa ini?')) {
-            fetch('index.php?route=admin/uploadFotoSiswa', {
+            fetch('index.php?route=admin/uploadFotoSiswa&ajax=1', {
                 method: 'POST',
                 body: formData,
                 credentials: 'same-origin'
@@ -230,7 +230,7 @@ function uploadFotoGuru(id) {
         formData.append('photo', file);
 
         if (confirm('Upload foto untuk guru ini?')) {
-            fetch('index.php?route=admin/uploadFotoGuru', {
+            fetch('index.php?route=admin/uploadFotoGuru&ajax=1', {
                 method: 'POST',
                 body: formData,
                 credentials: 'same-origin'
@@ -494,7 +494,8 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.disabled = true;
             
             const formData = new FormData(this);
-            fetch(this.action, {
+            const actionUrl = this.action + (this.action.includes('?') ? '&' : '?') + 'ajax=1';
+            fetch(actionUrl, {
                 method: 'POST',
                 body: formData,
                 credentials: 'same-origin'
@@ -551,7 +552,8 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.disabled = true;
             
             const formData = new FormData(this);
-            fetch(this.action, {
+            const actionUrl = this.action + (this.action.includes('?') ? '&' : '?') + 'ajax=1';
+            fetch(actionUrl, {
                 method: 'POST',
                 body: formData,
                 credentials: 'same-origin'
