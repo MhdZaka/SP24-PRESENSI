@@ -466,9 +466,7 @@ function putuskanKoneksiNfc() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    initNfcSocket();
-    
+function applyNfcUIState() {
     if (localStorage.getItem('nfc_paired') === 'true') {
         window.isDeviceConnected = true;
         const btnPairing = document.getElementById('btnPairingScanner');
@@ -479,6 +477,11 @@ document.addEventListener('DOMContentLoaded', () => {
             btnPairing.classList.add('btn-pulsing');
         }
     }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initNfcSocket();
+    applyNfcUIState();
     
     const formSiswa = document.getElementById('formSiswa');
     if (formSiswa) {
@@ -630,7 +633,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!mainContent) return;
         
         const originalHTML = mainContent.innerHTML;
-        mainContent.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:50vh;font-size:1.5rem;color:#09637E;"><i class="fas fa-spinner fa-spin"></i> &nbsp;Memuat...</div>';
+        mainContent.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:50vh;font-size:1.5rem;color:#09637E;"><i class="fas fa-spinner fa-spin"></i></div>';
         
         fetch(url, { credentials: 'same-origin' })
             .then(res => res.text())
@@ -642,6 +645,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (newMain) {
                     mainContent.innerHTML = newMain.innerHTML;
                     window.history.pushState({}, '', url);
+                    
+                    applyNfcUIState();
                     
                     const scripts = newMain.querySelectorAll('script');
                     scripts.forEach(script => {
