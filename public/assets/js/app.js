@@ -285,8 +285,9 @@ window.onload = function () {
         alert('Error: ' + decodeURIComponent(error));
     }
     
-    if (window.location.search.length > 0) {
-        window.history.replaceState({}, document.title, window.location.pathname);
+    if (window.location.search.length > 0 || window.location.pathname.includes('index.php')) {
+        const cleanPath = window.location.pathname.replace(/index\.php$/, '').replace(/index\.php\/$/, '');
+        window.history.replaceState({}, document.title, cleanPath);
     }
 }
 
@@ -646,7 +647,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 if (newMain) {
                     mainContent.innerHTML = newMain.innerHTML;
-                    window.history.replaceState({}, '', window.location.pathname);
+                    const cleanPath = window.location.pathname.replace(/index\.php$/, '').replace(/index\.php\/$/, '');
+                    window.history.replaceState({}, '', cleanPath);
                     
                     applyNfcUIState();
                     
