@@ -528,7 +528,14 @@ document.addEventListener('DOMContentLoaded', () => {
                             }
                         });
                 } else {
-                    const msg = (data.data && data.data.message) ? data.data.message : 'Terjadi kesalahan pada server.';
+                    let msg = (data.data && data.data.message) ? data.data.message : 'Terjadi kesalahan pada server.';
+                    if (msg.includes('Unique constraint failed') && msg.includes('tag_id')) {
+                        msg = 'Tag NFC ini sudah terdaftar. Silakan gunakan kartu/tag yang berbeda.';
+                    } else if (msg.includes('Unique constraint failed') && msg.includes('nis')) {
+                        msg = 'NIS ini sudah terdaftar. Silakan gunakan NIS yang berbeda.';
+                    } else if (msg.includes('Invalid `prisma')) {
+                        msg = 'Terjadi kesalahan validasi pada database. Pastikan data yang dimasukkan unik.';
+                    }
                     throw new Error(msg);
                 }
             })
@@ -587,7 +594,14 @@ document.addEventListener('DOMContentLoaded', () => {
                             }
                         });
                 } else {
-                    const msg = (data.data && data.data.message) ? data.data.message : 'Terjadi kesalahan pada server.';
+                    let msg = (data.data && data.data.message) ? data.data.message : 'Terjadi kesalahan pada server.';
+                    if (msg.includes('Unique constraint failed') && msg.includes('tag_id')) {
+                        msg = 'Tag NFC ini sudah terdaftar. Silakan gunakan kartu/tag yang berbeda.';
+                    } else if (msg.includes('Unique constraint failed') && msg.includes('username')) {
+                        msg = 'Username/NIP ini sudah terdaftar. Silakan gunakan yang berbeda.';
+                    } else if (msg.includes('Invalid `prisma')) {
+                        msg = 'Terjadi kesalahan validasi pada database. Pastikan data yang dimasukkan unik.';
+                    }
                     throw new Error(msg);
                 }
             })
