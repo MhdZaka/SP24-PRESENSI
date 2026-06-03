@@ -450,7 +450,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // AJAX submit untuk Form Siswa agar halaman tidak reload (mempertahankan koneksi Socket)
     const formSiswa = document.getElementById('formSiswa');
     if (formSiswa) {
         formSiswa.addEventListener('submit', function(e) {
@@ -499,7 +498,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // AJAX submit untuk Form Guru
     const formGuru = document.getElementById('formGuru');
     if (formGuru) {
         formGuru.addEventListener('submit', function(e) {
