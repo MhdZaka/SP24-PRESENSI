@@ -494,7 +494,8 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.disabled = true;
             
             const formData = new FormData(this);
-            const actionUrl = this.action + (this.action.includes('?') ? '&' : '?') + 'ajax=1';
+            const formActionUrl = this.getAttribute('action') || '';
+            const actionUrl = formActionUrl + (formActionUrl.includes('?') ? '&' : '?') + 'ajax=1';
             fetch(actionUrl, {
                 method: 'POST',
                 body: formData,
@@ -552,7 +553,8 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.disabled = true;
             
             const formData = new FormData(this);
-            const actionUrl = this.action + (this.action.includes('?') ? '&' : '?') + 'ajax=1';
+            const formActionUrl = this.getAttribute('action') || '';
+            const actionUrl = formActionUrl + (formActionUrl.includes('?') ? '&' : '?') + 'ajax=1';
             fetch(actionUrl, {
                 method: 'POST',
                 body: formData,
