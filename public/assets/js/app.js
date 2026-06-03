@@ -56,7 +56,7 @@ function editSiswa(id) {
 
 function hapusSiswa(id) {
     if (confirm('Yakin ingin menghapus siswa ini?')) {
-        fetch('index.php?route=admin/prosesSiswa&action=delete&id=' + id)
+        fetch('index.php?route=admin/prosesSiswa&action=delete&id=' + id, { credentials: 'same-origin' })
         .then(res => res.text())
         .then(html => {
             const parser = new DOMParser();
@@ -130,7 +130,7 @@ function editGuru(id) {
 
 function hapusGuru(id) {
     if (confirm('Yakin ingin menghapus guru ini?')) {
-        fetch('index.php?route=admin/prosesGuru&action=delete&id=' + id)
+        fetch('index.php?route=admin/prosesGuru&action=delete&id=' + id, { credentials: 'same-origin' })
         .then(res => res.text())
         .then(html => {
             const parser = new DOMParser();
@@ -167,7 +167,8 @@ function uploadFotoSiswa(id) {
         if (confirm('Upload foto untuk siswa ini?')) {
             fetch('index.php?route=admin/uploadFotoSiswa', {
                 method: 'POST',
-                body: formData
+                body: formData,
+                credentials: 'same-origin'
             })
             .then(res => res.text())
             .then(html => {
@@ -207,7 +208,8 @@ function uploadFotoGuru(id) {
         if (confirm('Upload foto untuk guru ini?')) {
             fetch('index.php?route=admin/uploadFotoGuru', {
                 method: 'POST',
-                body: formData
+                body: formData,
+                credentials: 'same-origin'
             })
             .then(res => res.text())
             .then(html => {
@@ -462,7 +464,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const formData = new FormData(this);
             fetch(this.action, {
                 method: 'POST',
-                body: formData
+                body: formData,
+                credentials: 'same-origin'
             })
             .then(res => res.text())
             .then(html => {
@@ -510,7 +513,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const formData = new FormData(this);
             fetch(this.action, {
                 method: 'POST',
-                body: formData
+                body: formData,
+                credentials: 'same-origin'
             })
             .then(res => res.text())
             .then(html => {
