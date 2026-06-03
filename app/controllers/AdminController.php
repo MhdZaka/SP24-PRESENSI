@@ -37,7 +37,12 @@ class AdminController {
 
         if ($action == 'delete' && $_SERVER['REQUEST_METHOD'] == 'GET') {
             $id = $_GET['id'];
-            StudentModel::delete($id);
+            $result = StudentModel::delete($id);
+            if (isset($_SERVER['HTTP_SEC_FETCH_DEST']) && $_SERVER['HTTP_SEC_FETCH_DEST'] === 'empty') {
+                header('Content-Type: application/json');
+                echo json_encode(['status' => 200, 'data' => ['success' => true]]);
+                exit();
+            }
             header('Location: ' . APP_URL . '/app/index.php?route=admin/dashboard&tab=siswa');
             exit();
         }
@@ -53,6 +58,11 @@ class AdminController {
                 'age' => (int)$_POST['age']
             ];
             $result = StudentModel::create($data);
+            if (isset($_SERVER['HTTP_SEC_FETCH_DEST']) && $_SERVER['HTTP_SEC_FETCH_DEST'] === 'empty') {
+                header('Content-Type: application/json');
+                echo json_encode($result);
+                exit();
+            }
             if ($result['status'] >= 200 && $result['status'] < 300) {
                 if (isset($result['data']['success']) && $result['data']['success'] == false) {
                     $errorMsg = urlencode($result['data']['message'] ?? 'Gagal menambah siswa.');
@@ -79,6 +89,11 @@ class AdminController {
                 'age' => (int)$_POST['age']
             ];
             $result = StudentModel::update($id, $data);
+            if (isset($_SERVER['HTTP_SEC_FETCH_DEST']) && $_SERVER['HTTP_SEC_FETCH_DEST'] === 'empty') {
+                header('Content-Type: application/json');
+                echo json_encode($result);
+                exit();
+            }
             if ($result['status'] >= 200 && $result['status'] < 300) {
                 if (isset($result['data']['success']) && $result['data']['success'] == false) {
                     $errorMsg = urlencode($result['data']['message'] ?? 'Gagal mengedit siswa.');
@@ -111,7 +126,12 @@ class AdminController {
 
         if ($action == 'delete' && $_SERVER['REQUEST_METHOD'] == 'GET') {
             $id = $_GET['id'];
-            TeacherModel::delete($id);
+            $result = TeacherModel::delete($id);
+            if (isset($_SERVER['HTTP_SEC_FETCH_DEST']) && $_SERVER['HTTP_SEC_FETCH_DEST'] === 'empty') {
+                header('Content-Type: application/json');
+                echo json_encode(['status' => 200, 'data' => ['success' => true]]);
+                exit();
+            }
             header('Location: ' . APP_URL . '/app/index.php?route=admin/dashboard&tab=guru');
             exit();
         }
@@ -126,6 +146,11 @@ class AdminController {
                 'gender' => $_POST['gender']
             ];
             $result = TeacherModel::create($data);
+            if (isset($_SERVER['HTTP_SEC_FETCH_DEST']) && $_SERVER['HTTP_SEC_FETCH_DEST'] === 'empty') {
+                header('Content-Type: application/json');
+                echo json_encode($result);
+                exit();
+            }
             if ($result['status'] >= 200 && $result['status'] < 300) {
                 if (isset($result['data']['success']) && $result['data']['success'] == false) {
                     $errorMsg = urlencode($result['data']['message'] ?? 'Gagal menambah guru.');
@@ -153,6 +178,11 @@ class AdminController {
                 $data['password'] = $_POST['password'];
             }
             $result = TeacherModel::update($id, $data);
+            if (isset($_SERVER['HTTP_SEC_FETCH_DEST']) && $_SERVER['HTTP_SEC_FETCH_DEST'] === 'empty') {
+                header('Content-Type: application/json');
+                echo json_encode($result);
+                exit();
+            }
             if ($result['status'] >= 200 && $result['status'] < 300) {
                 if (isset($result['data']['success']) && $result['data']['success'] == false) {
                     $errorMsg = urlencode($result['data']['message'] ?? 'Gagal mengedit guru.');

@@ -57,23 +57,31 @@ function editSiswa(id) {
 function hapusSiswa(id) {
     if (confirm('Yakin ingin menghapus siswa ini?')) {
         fetch('index.php?route=admin/prosesSiswa&action=delete&id=' + id, { credentials: 'same-origin' })
-        .then(res => res.text())
-        .then(html => {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            const newTable = doc.querySelector('.data-table');
-            const oldTable = document.querySelector('.data-table');
-            if (newTable && oldTable) {
-                oldTable.innerHTML = newTable.innerHTML;
-                const toast = document.getElementById('toastNotification');
-                if (toast) {
-                    toast.innerHTML = '<i class="fas fa-trash"></i> Data Siswa dihapus!';
-                    toast.style.background = '#ef4444';
-                    toast.classList.add('show');
-                    setTimeout(() => { toast.classList.remove('show'); }, 3000);
-                }
+        .then(res => res.json())
+        .then(data => {
+            if (data.status >= 200 && data.status < 300) {
+                return fetch('index.php?route=admin/dashboard&tab=siswa', { credentials: 'same-origin' })
+                    .then(res => res.text())
+                    .then(html => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        const newTable = doc.querySelector('.data-table');
+                        const oldTable = document.querySelector('.data-table');
+                        if (newTable && oldTable) {
+                            oldTable.innerHTML = newTable.innerHTML;
+                            const toast = document.getElementById('toastNotification');
+                            if (toast) {
+                                toast.innerHTML = '<i class="fas fa-trash"></i> Data Siswa dihapus!';
+                                toast.style.background = '#ef4444';
+                                toast.classList.add('show');
+                                setTimeout(() => { toast.classList.remove('show'); }, 3000);
+                            }
+                        } else {
+                            alert('Data berhasil dihapus, namun gagal memuat ulang tabel.');
+                        }
+                    });
             } else {
-                alert('Gagal memuat ulang data tabel. Periksa koneksi Anda.');
+                throw new Error('Terjadi kesalahan pada server saat menghapus.');
             }
         })
         .catch(err => alert("GAGAL menghapus data: " + err.message));
@@ -131,23 +139,31 @@ function editGuru(id) {
 function hapusGuru(id) {
     if (confirm('Yakin ingin menghapus guru ini?')) {
         fetch('index.php?route=admin/prosesGuru&action=delete&id=' + id, { credentials: 'same-origin' })
-        .then(res => res.text())
-        .then(html => {
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            const newTable = doc.querySelector('.guru-grid-container');
-            const oldTable = document.querySelector('.guru-grid-container');
-            if (newTable && oldTable) {
-                oldTable.innerHTML = newTable.innerHTML;
-                const toast = document.getElementById('toastNotification');
-                if (toast) {
-                    toast.innerHTML = '<i class="fas fa-trash"></i> Data Guru dihapus!';
-                    toast.style.background = '#ef4444';
-                    toast.classList.add('show');
-                    setTimeout(() => { toast.classList.remove('show'); }, 3000);
-                }
+        .then(res => res.json())
+        .then(data => {
+            if (data.status >= 200 && data.status < 300) {
+                return fetch('index.php?route=admin/dashboard&tab=guru', { credentials: 'same-origin' })
+                    .then(res => res.text())
+                    .then(html => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        const newTable = doc.querySelector('.guru-grid-container');
+                        const oldTable = document.querySelector('.guru-grid-container');
+                        if (newTable && oldTable) {
+                            oldTable.innerHTML = newTable.innerHTML;
+                            const toast = document.getElementById('toastNotification');
+                            if (toast) {
+                                toast.innerHTML = '<i class="fas fa-trash"></i> Data Guru dihapus!';
+                                toast.style.background = '#ef4444';
+                                toast.classList.add('show');
+                                setTimeout(() => { toast.classList.remove('show'); }, 3000);
+                            }
+                        } else {
+                            alert('Data berhasil dihapus, namun gagal memuat ulang tabel.');
+                        }
+                    });
             } else {
-                alert('Gagal memuat ulang data tabel. Periksa koneksi Anda.');
+                throw new Error('Terjadi kesalahan pada server saat menghapus.');
             }
         })
         .catch(err => alert("GAGAL menghapus data: " + err.message));
@@ -170,23 +186,31 @@ function uploadFotoSiswa(id) {
                 body: formData,
                 credentials: 'same-origin'
             })
-            .then(res => res.text())
-            .then(html => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const newTable = doc.querySelector('.data-table');
-                const oldTable = document.querySelector('.data-table');
-                if (newTable && oldTable) {
-                    oldTable.innerHTML = newTable.innerHTML;
-                    const toast = document.getElementById('toastNotification');
-                    if (toast) {
-                        toast.innerHTML = '<i class="fas fa-image"></i> Foto Siswa berhasil diupload!';
-                        toast.style.background = '#22c55e';
-                        toast.classList.add('show');
-                        setTimeout(() => { toast.classList.remove('show'); }, 3000);
-                    }
+            .then(res => res.json())
+            .then(data => {
+                if (data.status >= 200 && data.status < 300) {
+                    return fetch('index.php?route=admin/dashboard&tab=siswa', { credentials: 'same-origin' })
+                        .then(res => res.text())
+                        .then(html => {
+                            const parser = new DOMParser();
+                            const doc = parser.parseFromString(html, 'text/html');
+                            const newTable = doc.querySelector('.data-table');
+                            const oldTable = document.querySelector('.data-table');
+                            if (newTable && oldTable) {
+                                oldTable.innerHTML = newTable.innerHTML;
+                                const toast = document.getElementById('toastNotification');
+                                if (toast) {
+                                    toast.innerHTML = '<i class="fas fa-image"></i> Foto Siswa berhasil diupload!';
+                                    toast.style.background = '#22c55e';
+                                    toast.classList.add('show');
+                                    setTimeout(() => { toast.classList.remove('show'); }, 3000);
+                                }
+                            } else {
+                                alert('Foto diupload, namun gagal memuat ulang tabel.');
+                            }
+                        });
                 } else {
-                    alert('Gagal memuat ulang data tabel. Periksa koneksi Anda.');
+                    throw new Error('Terjadi kesalahan pada server saat upload.');
                 }
             })
             .catch(err => alert('Gagal upload foto: ' + err.message));
@@ -211,23 +235,31 @@ function uploadFotoGuru(id) {
                 body: formData,
                 credentials: 'same-origin'
             })
-            .then(res => res.text())
-            .then(html => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const newTable = doc.querySelector('.guru-grid-container');
-                const oldTable = document.querySelector('.guru-grid-container');
-                if (newTable && oldTable) {
-                    oldTable.innerHTML = newTable.innerHTML;
-                    const toast = document.getElementById('toastNotification');
-                    if (toast) {
-                        toast.innerHTML = '<i class="fas fa-image"></i> Foto Guru berhasil diupload!';
-                        toast.style.background = '#22c55e';
-                        toast.classList.add('show');
-                        setTimeout(() => { toast.classList.remove('show'); }, 3000);
-                    }
+            .then(res => res.json())
+            .then(data => {
+                if (data.status >= 200 && data.status < 300) {
+                    return fetch('index.php?route=admin/dashboard&tab=guru', { credentials: 'same-origin' })
+                        .then(res => res.text())
+                        .then(html => {
+                            const parser = new DOMParser();
+                            const doc = parser.parseFromString(html, 'text/html');
+                            const newTable = doc.querySelector('.guru-grid-container');
+                            const oldTable = document.querySelector('.guru-grid-container');
+                            if (newTable && oldTable) {
+                                oldTable.innerHTML = newTable.innerHTML;
+                                const toast = document.getElementById('toastNotification');
+                                if (toast) {
+                                    toast.innerHTML = '<i class="fas fa-image"></i> Foto Guru berhasil diupload!';
+                                    toast.style.background = '#22c55e';
+                                    toast.classList.add('show');
+                                    setTimeout(() => { toast.classList.remove('show'); }, 3000);
+                                }
+                            } else {
+                                alert('Foto diupload, namun gagal memuat ulang tabel.');
+                            }
+                        });
                 } else {
-                    alert('Gagal memuat ulang data tabel. Periksa koneksi Anda.');
+                    throw new Error('Terjadi kesalahan pada server saat upload.');
                 }
             })
             .catch(err => alert('Gagal upload foto: ' + err.message));
@@ -467,34 +499,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: formData,
                 credentials: 'same-origin'
             })
-            .then(res => {
-                const url = new URL(res.url);
-                const errorMsg = url.searchParams.get('error');
-                if (errorMsg) {
-                    throw new Error(decodeURIComponent(errorMsg).replace(/\+/g, ' '));
-                }
-                return res.text();
-            })
-            .then(html => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const newTable = doc.querySelector('.data-table');
-                const oldTable = document.querySelector('.data-table');
-                
-                if (newTable && oldTable) {
-                    oldTable.innerHTML = newTable.innerHTML;
-                    closeModal('modalSiswa');
-                    formSiswa.reset();
-                    
-                    const toast = document.getElementById('toastNotification');
-                    if (toast) {
-                        toast.innerHTML = '<i class="fas fa-check-circle"></i> Data Siswa berhasil disimpan!';
-                        toast.style.background = '#22c55e';
-                        toast.classList.add('show');
-                        setTimeout(() => { toast.classList.remove('show'); }, 3000);
-                    }
+            .then(res => res.json())
+            .then(data => {
+                if (data.status >= 200 && data.status < 300 && data.data && data.data.success !== false) {
+                    // Berhasil, ambil tabel baru
+                    return fetch('index.php?route=admin/dashboard&tab=siswa', { credentials: 'same-origin' })
+                        .then(res => res.text())
+                        .then(html => {
+                            const parser = new DOMParser();
+                            const doc = parser.parseFromString(html, 'text/html');
+                            const newTable = doc.querySelector('.data-table');
+                            const oldTable = document.querySelector('.data-table');
+                            if (newTable && oldTable) {
+                                oldTable.innerHTML = newTable.innerHTML;
+                                closeModal('modalSiswa');
+                                formSiswa.reset();
+                                const toast = document.getElementById('toastNotification');
+                                if (toast) {
+                                    toast.innerHTML = '<i class="fas fa-check-circle"></i> Data Siswa berhasil disimpan!';
+                                    toast.style.background = '#22c55e';
+                                    toast.classList.add('show');
+                                    setTimeout(() => { toast.classList.remove('show'); }, 3000);
+                                }
+                            } else {
+                                alert('Data berhasil disimpan, namun gagal memuat ulang tabel.');
+                            }
+                        });
                 } else {
-                    alert('Gagal memuat ulang data tabel. Periksa koneksi Anda.');
+                    const msg = (data.data && data.data.message) ? data.data.message : 'Terjadi kesalahan pada server.';
+                    throw new Error(msg);
                 }
             })
             .catch(err => {
@@ -523,34 +556,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: formData,
                 credentials: 'same-origin'
             })
-            .then(res => {
-                const url = new URL(res.url);
-                const errorMsg = url.searchParams.get('error');
-                if (errorMsg) {
-                    throw new Error(decodeURIComponent(errorMsg).replace(/\+/g, ' '));
-                }
-                return res.text();
-            })
-            .then(html => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const newTable = doc.querySelector('.guru-grid-container');
-                const oldTable = document.querySelector('.guru-grid-container');
-                
-                if (newTable && oldTable) {
-                    oldTable.innerHTML = newTable.innerHTML;
-                    closeModal('modalGuru');
-                    formGuru.reset();
-                    
-                    const toast = document.getElementById('toastNotification');
-                    if (toast) {
-                        toast.innerHTML = '<i class="fas fa-check-circle"></i> Data Guru berhasil disimpan!';
-                        toast.style.background = '#22c55e';
-                        toast.classList.add('show');
-                        setTimeout(() => { toast.classList.remove('show'); }, 3000);
-                    }
+            .then(res => res.json())
+            .then(data => {
+                if (data.status >= 200 && data.status < 300 && data.data && data.data.success !== false) {
+                    // Berhasil, ambil tabel baru
+                    return fetch('index.php?route=admin/dashboard&tab=guru', { credentials: 'same-origin' })
+                        .then(res => res.text())
+                        .then(html => {
+                            const parser = new DOMParser();
+                            const doc = parser.parseFromString(html, 'text/html');
+                            const newTable = doc.querySelector('.guru-grid-container');
+                            const oldTable = document.querySelector('.guru-grid-container');
+                            if (newTable && oldTable) {
+                                oldTable.innerHTML = newTable.innerHTML;
+                                closeModal('modalGuru');
+                                formGuru.reset();
+                                const toast = document.getElementById('toastNotification');
+                                if (toast) {
+                                    toast.innerHTML = '<i class="fas fa-check-circle"></i> Data Guru berhasil disimpan!';
+                                    toast.style.background = '#22c55e';
+                                    toast.classList.add('show');
+                                    setTimeout(() => { toast.classList.remove('show'); }, 3000);
+                                }
+                            } else {
+                                alert('Data berhasil disimpan, namun gagal memuat ulang tabel.');
+                            }
+                        });
                 } else {
-                    alert('Gagal memuat ulang data tabel. Periksa koneksi Anda.');
+                    const msg = (data.data && data.data.message) ? data.data.message : 'Terjadi kesalahan pada server.';
+                    throw new Error(msg);
                 }
             })
             .catch(err => {
